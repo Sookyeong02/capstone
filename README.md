@@ -6,6 +6,9 @@
 
 ## 기술 스택
 Frontend: React.js, Next.js, Tailwind CSS
+
 Backend: Node.js, Express.js
+
 Database: MongoDB
+
 Deployment: Vercel, Netlify
