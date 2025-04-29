@@ -1,6 +1,7 @@
 import '@/styles/globals.css';
 import { pretendard } from './fonts';
 import type { Metadata } from 'next';
+import Header from '@/components/layout/Header';
 
 export const metadata: Metadata = {
   title: 'BuildFolio',
@@ -15,6 +16,7 @@ export default function RootLayout({
   return (
     <html lang="ko" className={pretendard.variable}>
       <body>
+        <Header />
         {children}
       </body>
     </html>
