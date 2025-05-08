@@ -57,18 +57,26 @@ export default function LoginForm() {
         role,
       });
       const { user, accessToken, refreshToken } = response.data;
-      login(user, accessToken, refreshToken);
 
+      if (user.role !== role) {
+        alert('선택한 사용자 유형과 계정 정보가 일치하지 않습니다.');
+        setLoading(false);
+        return;
+      }
+
+      login(user, accessToken, refreshToken);
       router.push('/');
     } catch (err) {
       const error = err as AxiosError<ErrorResponse>;
       const msg = error.response?.data?.message;
+
       if (msg === '비밀번호가 일치하지 않습니다.') {
         setError('');
-      } else if (msg === '존재하지 않는 유저입니다.') {
-        alert('존재하지 않는 유저입니다.');
+      } else if (msg === '존재하지 않는 사용자입니다.') {
+        alert('존재하지 않는 사용자입니다.');
       } else {
-        setError('error');
+        console.error('예상치 못한 에러 메시지:', msg);
+        alert('로그인 중 오류가 발생했습니다.');
       }
     } finally {
       setLoading(false);
