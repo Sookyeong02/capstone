@@ -1,6 +1,6 @@
 import { ButtonHTMLAttributes, ReactNode } from "react";
 
-type ButtonVariant = 'blue-200' | 'gray-300';
+type ButtonVariant = 'customBlue' | 'gray-300';
 type ButtonSize = 'xsmall' | 'small' | 'medium' | 'large' | 'full';
 
 interface ButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
@@ -14,7 +14,7 @@ interface ButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
 
 export function Button ({
   children,
-  variant = 'blue-200',
+  variant = 'customBlue',
   size = 'large',
   className = '',
   isLoading = false,
@@ -23,7 +23,7 @@ export function Button ({
   ...props
 }: ButtonProps) {
   const variantStyles = {
-    'blue-200': 'bg-blue-200 text-white',
+    'customBlue': "var(--color-custom-blue-200)",
     'gray-300': 'bg-gray-300 text-white',
   };
   
@@ -42,7 +42,11 @@ export function Button ({
 
   return (
     <button
-      className={`${baseStyles} ${variantStyles[variant]} ${sizeStyles[size]} ${widthStyle} ${className}`}
+      style={{
+        backgroundColor: variantStyles[variant],
+        color: "white", 
+      }}
+      className={`${baseStyles} ${sizeStyles[size]} ${widthStyle} ${className}`}
       disabled={disabled || isLoading}
       aria-disabled={disabled || isLoading}
       {...props}

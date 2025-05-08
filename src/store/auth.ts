@@ -1,37 +1,6 @@
+import { AuthUser } from "@/types/auth";
 import { create } from "zustand";
 import { persist, createJSONStorage } from 'zustand/middleware';
-
-// 공통
-interface CommonUser {
-  id: string;
-  email: string;
-  role: "personal" | "company" | "admin";
-  provider: "local" | "google" | "kakao";
-  profileImage?: string;
-  createdAt: string;
-  updatedAt: string;
-}
-
-// 개인
-interface PersonalUser extends CommonUser {
-  role: "personal";
-  name: string;
-  nickname: string;
-}
-
-// 기업
-interface CompanyUser extends CommonUser {
-  role: "company";
-  companyName: string;
-}
-
-// 관리자
-interface AdminUser extends CommonUser {
-  role: "admin";
-}
-
-// Zustand에 저장될 사용자 타입
-export type AuthUser = PersonalUser | CompanyUser | AdminUser;
 
 // Zustand 상태 타입
 interface AuthState {

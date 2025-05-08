@@ -7,16 +7,46 @@ import Bell from "../../../public/icons/bell.svg";
 import SearchIcon from "../../../public/icons/search.svg";
 import User from "../../../public/icons/user.svg";
 import { usePathname } from "next/navigation";
+import { useAuthStore } from "@/store/auth";
 
 export default function Header() {
   const pathname = usePathname();
+  const { user, isAuthenticated } = useAuthStore();
 
   const hideHeaderPaths = ['/login', '/signup'];
   const shouldHideHeader = hideHeaderPaths.includes(pathname);
 
-  if (shouldHideHeader) {
-    return null;  // 렌더링 아예 안 함
-  }
+  if (shouldHideHeader) return null;  // 렌더링 아예 안 함
+
+  const renderProfile = () => {
+    if (!user) return null;
+
+    if (user?.profileImageUrl) {
+      return (
+        <Image
+          src={user.profileImageUrl}
+          alt="프로필 이미지"
+          width={32}
+          height={32}
+          className="w-[32px] h-[32px] rounded-full object-cover"
+        />
+      );
+    }
+  
+    const name = user.role === "personal" ? user.nickname : user.companyName;
+    const initial = name[0];
+
+    return (
+      <div className="w-[32px] h-[32px] rounded-full bg-gray-300 text-white text-sm flex items-center justify-center">
+        {initial}
+      </div>
+    );
+  };
+
+  const renderDisplayName = () => {
+    if (!user) return "";
+    return user.role === "personal" ? user.nickname : user.companyName;
+  };
 
   return (
     <header className="w-full h-[70px] flex justify-center items-center bg-[#ffffff] border-b border-gray-200">
@@ -46,10 +76,17 @@ export default function Header() {
             <p>Search</p>
           </div>
 
-          <div className="flex items-center gap-[4px] md:gap-[10px] text-md md:text-2lg font-bold">
-            <Image width={16} height={18} src={User} alt="사용자 아이콘" />
-            <Link href="/login">Login</Link>          
-          </div>
+          {isAuthenticated ? (
+            <div className="flex items-center gap-[8px] text-md md:text-2lg font-bold">
+              {renderProfile()}
+              <span>{renderDisplayName()}</span>
+            </div>
+          ) : (
+            <div className="flex items-center gap-[4px] md:gap-[10px] text-md md:text-2lg font-bold">
+              <Image width={16} height={18} src={User} alt="사용자 아이콘" />
+              <Link href="/login">Login</Link>          
+            </div>
+          )}
         </div>
 
         {/* TODO: 알림, 검색창, 로그인 시 프로필 */}
