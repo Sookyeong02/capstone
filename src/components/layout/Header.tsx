@@ -77,7 +77,7 @@ export default function Header() {
           </div>
 
           {isAuthenticated ? (
-            <div className="flex items-center gap-[8px] text-md md:text-2lg font-bold">
+            <div className="flex items-center gap-[10px] text-md md:text-2lg font-bold">
               {renderProfile()}
               <span>{renderDisplayName()}</span>
             </div>
