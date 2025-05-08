@@ -59,10 +59,6 @@ export default function LoginForm() {
       const { user, accessToken, refreshToken } = response.data;
       login(user, accessToken, refreshToken);
 
-      console.log(useAuthStore.getState());
-      console.log("🧪 백엔드 응답 확인:", response.data);
-
-
       router.push('/');
     } catch (err) {
       const error = err as AxiosError<ErrorResponse>;
