@@ -61,7 +61,10 @@ export default function ProfileModal() {
 
       <hr />
 
-      <div className="mt-[14px] mb-[40px] px-[26px] text-lg font-light" onClick={handleLogout}>
+      <div
+        className="mt-[14px] mb-[40px] cursor-pointer px-[26px] text-lg font-light"
+        onClick={handleLogout}
+      >
         로그아웃
       </div>
     </div>

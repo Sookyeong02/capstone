@@ -50,6 +50,10 @@ if (isClient) {
         return Promise.reject(error);
       }
 
+      if (originalConfig.url?.includes('/auth/me')) {
+        return Promise.reject(error);
+      }
+
       originalConfig.retry = true;
 
       try {
