@@ -3,7 +3,7 @@ interface RoleProps {
   onChange: (role: 'personal' | 'company') => void;
 }
 
-export default function LoginTabs({ value, onChange }: RoleProps) {
+export default function RoleTabs({ value, onChange }: RoleProps) {
   return (
     <div className="flex justify-center gap-[80px]">
       {['personal', 'company'].map((role) => (

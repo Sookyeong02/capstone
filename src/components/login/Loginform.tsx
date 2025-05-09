@@ -4,7 +4,7 @@ import { useAuthStore } from '@/store/auth';
 import { publicApi } from '@/utils/axios';
 import { useRouter } from 'next/navigation';
 import { useState } from 'react';
-import LoginTabs from './LoginTabs';
+import RoleTabs from '../common/RoleTabs';
 import LoginInput from './LoginInput';
 import { Button } from '../ui/Button';
 import { Controller, useForm } from 'react-hook-form';
@@ -120,7 +120,7 @@ export default function LoginForm() {
         />
       </Link>
 
-      <LoginTabs value={role} onChange={setRole} />
+      <RoleTabs value={role} onChange={setRole} />
 
       <form
         className="mb:mt-[30px] mt-[24px] flex w-full flex-col gap-[32px]"
