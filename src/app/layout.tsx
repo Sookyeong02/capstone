@@ -9,11 +9,7 @@ export const metadata: Metadata = {
   description: '포트폴리오 플랫폼',
 };
 
-export default function RootLayout({
-  children,
-}: {
-  children: React.ReactNode;
-}) {
+export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
     <html lang="ko" className={pretendard.variable}>
       <body>

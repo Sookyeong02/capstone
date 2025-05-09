@@ -1,11 +1,11 @@
-import type { Config } from "tailwindcss";
+import type { Config } from 'tailwindcss';
 
 export default {
   content: [
-    "./src/**/*.{js,ts,jsx,tsx,mdx}",
-    "./src/pages/**/*.{js,ts,jsx,tsx,mdx}",
-    "./src/components/**/*.{js,ts,jsx,tsx,mdx}",
-    "./src/app/**/*.{js,ts,jsx,tsx,mdx}",
+    './src/**/*.{js,ts,jsx,tsx,mdx}',
+    './src/pages/**/*.{js,ts,jsx,tsx,mdx}',
+    './src/components/**/*.{js,ts,jsx,tsx,mdx}',
+    './src/app/**/*.{js,ts,jsx,tsx,mdx}',
   ],
   theme: {
     extend: {
@@ -17,18 +17,19 @@ export default {
       colors: {
         black: '#1B1B1B',
         gray: {
+          400: '#0A1B2D',
           300: '#A4A1AA',
           200: '#DDDDDD',
           100: '#F5F5F5',
         },
         customBlue: {
           200: '#0A1B2D',
-          100: '#003092'
+          100: '#003092',
         },
         red: {
-          1: '#FD5F5F'
+          1: '#FD5F5F',
         },
-        primaryYellow: "#FFC23D",
+        primaryYellow: '#FFC23D',
       },
       fontFamily: {
         pretendard: ['var(--font-pretendard)'], // CSS 변수 사용

@@ -1,11 +1,10 @@
-"use client";
+'use client';
 
-import LoginForm from "@/components/login/Loginform";
+import LoginForm from '@/components/login/Loginform';
 
 export default function Login() {
-
   return (
-    <div className="flex justify-center w-full min-w-screen">
+    <div className="flex w-full min-w-screen justify-center">
       <LoginForm />
     </div>
   );

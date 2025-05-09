@@ -1,7 +1,8 @@
-@import "tailwindcss";
+@config "../../tailwind.config.ts";
+@import 'tailwindcss';
 
 :root {
-  --background: #FAFAFA;
+  --background: #fafafa;
   --foreground: #171717;
 }
 
@@ -13,10 +14,10 @@
 }
 
 @theme {
-  --color-custom-blue-200: #0A1B2D;
+  --color-custom-blue-200: #0a1b2d;
   --color-custom-blue-100: #003092;
-  --color-primary-yellow: #FFC23D;
-  --color-red-100: #FD5F5F;
+  --color-primary-yellow: #ffc23d;
+  --color-red-1: #fd5f5f;
 }
 
 @media (prefers-color-scheme: dark) {

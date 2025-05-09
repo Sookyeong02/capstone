@@ -22,11 +22,11 @@ export default function InputItem({
   const [isPasswordVisible, setPasswordVisible] = useState(false);
 
   return (
-    <div className="gap-[8px] flex flex-col relative w-[350px] md:w-[640px]">
+    <div className="relative flex w-[350px] flex-col gap-[8px] md:w-[640px]">
       {/* label 스타일을 props로 받으면 이를 적용 */}
       <label
         htmlFor={id}
-        className={`font-pretendard text-[black] ${labelClassName || 'text-lg font-regular'}`}
+        className={`font-pretendard text-[black] ${labelClassName || 'font-regular text-lg'}`}
       >
         {label}
       </label>
@@ -34,9 +34,7 @@ export default function InputItem({
       <div className="relative">
         <input
           id={passwordinput ? `${id}-password` : id}
-          className={`font-pretendard placeholder-gray-300 text-lg rounded-[6px] w-full h-[48px] pl-[20px]
-            border ${error ? 'border-[color:var(--color-red-100)]' : 'border-gray-300'} 
-            focus:outline-none focus:border-gray-300 ${className}`}
+          className={`font-pretendard h-[48px] w-full rounded-[6px] border pl-[20px] text-lg placeholder-gray-300 ${error ? 'border-[color:var(--color-red-100)]' : 'border-gray-300'} focus:border-gray-300 focus:outline-none ${className}`}
           type={passwordinput && !isPasswordVisible ? 'password' : 'text'}
           {...props}
         />
@@ -44,7 +42,7 @@ export default function InputItem({
         {passwordinput && (
           <span
             onClick={() => setPasswordVisible(!isPasswordVisible)}
-            className="absolute right-4 top-1/2 transform -translate-y-1/2 cursor-pointer"
+            className="absolute top-1/2 right-4 -translate-y-1/2 transform cursor-pointer"
           >
             <Image
               src={
@@ -61,7 +59,7 @@ export default function InputItem({
       </div>
 
       {error && errorMessage && (
-        <p className="text-[color:var(--color-red-100)] text-xs font-regular">{errorMessage}</p>
+        <p className="font-regular text-xs text-[color:var(--color-red-100)]">{errorMessage}</p>
       )}
     </div>
   );

@@ -1,4 +1,4 @@
-import { ButtonHTMLAttributes, ReactNode } from "react";
+import { ButtonHTMLAttributes, ReactNode } from 'react';
 
 type ButtonVariant = 'customBlue' | 'gray-300';
 type ButtonSize = 'xsmall' | 'small' | 'medium' | 'large' | 'full';
@@ -12,7 +12,7 @@ interface ButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
   fullWidth?: boolean; // 버튼을 부모 너비에 맞춰 확장할지 여부
 }
 
-export function Button ({
+export function Button({
   children,
   variant = 'customBlue',
   size = 'large',
@@ -23,10 +23,10 @@ export function Button ({
   ...props
 }: ButtonProps) {
   const variantStyles = {
-    'customBlue': "var(--color-custom-blue-200)",
+    customBlue: 'var(--color-custom-blue-200)',
     'gray-300': 'bg-gray-300 text-white',
   };
-  
+
   const sizeStyles = {
     xsmall: 'w-[50px] h-[24px] text-xs',
     small: 'w-[66px] h-[24px] text-xs',
@@ -44,7 +44,7 @@ export function Button ({
     <button
       style={{
         backgroundColor: variantStyles[variant],
-        color: "white", 
+        color: 'white',
       }}
       className={`${baseStyles} ${sizeStyles[size]} ${widthStyle} ${className}`}
       disabled={disabled || isLoading}

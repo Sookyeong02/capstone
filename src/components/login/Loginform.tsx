@@ -1,18 +1,18 @@
-"use client";
+'use client';
 
-import { useAuthStore } from "@/store/auth";
-import { publicApi } from "@/utils/axios";
-import { useRouter } from "next/navigation";
-import { useState } from "react";
-import LoginTabs from "./LoginTabs";
-import LoginInput from "./LoginInput";
-import { Button } from "../ui/Button";
-import { Controller, useForm } from "react-hook-form";
-import Link from "next/link";
-import { AxiosError } from "axios";
-import Image from "next/image";
-import Logo from "../../../public/icons/main-logo.svg";
-import { LoginResponse } from "@/types/auth";
+import { useAuthStore } from '@/store/auth';
+import { publicApi } from '@/utils/axios';
+import { useRouter } from 'next/navigation';
+import { useState } from 'react';
+import LoginTabs from './LoginTabs';
+import LoginInput from './LoginInput';
+import { Button } from '../ui/Button';
+import { Controller, useForm } from 'react-hook-form';
+import Link from 'next/link';
+import { AxiosError } from 'axios';
+import Image from 'next/image';
+import Logo from '../../../public/icons/main-logo.svg';
+import { LoginResponse } from '@/types/auth';
 
 interface FormData {
   email: string;
@@ -29,7 +29,7 @@ export default function LoginForm() {
   const { login } = useAuthStore();
 
   const [role, setRole] = useState<'personal' | 'company'>('personal');
-  const [error, setError] = useState("");
+  const [error, setError] = useState('');
   const [loading, setLoading] = useState(false);
 
   const {
@@ -109,21 +109,21 @@ export default function LoginForm() {
   const isButtonDisabled = loading || !isValid || !!errors.email || !!errors.password;
 
   return (
-    <div className="flex flex-col w-[350px] md:w-[640px]">
-      <Link href="/" className="flex justify-center mt-[78px] md:mt-[90px] mb-[60px] md:mb-[40px]">
-        <Image 
-          width={204} 
-          height={230} 
-          src={Logo} 
-          alt="로고" 
-          className="w-[124px] h-[140px] md:w-[204px] md:h-[230px]"
+    <div className="flex w-[350px] flex-col md:w-[640px]">
+      <Link href="/" className="mt-[78px] mb-[60px] flex justify-center md:mt-[90px] md:mb-[40px]">
+        <Image
+          width={204}
+          height={230}
+          src={Logo}
+          alt="로고"
+          className="h-[140px] w-[124px] md:h-[230px] md:w-[204px]"
         />
       </Link>
 
       <LoginTabs value={role} onChange={setRole} />
 
-      <form 
-        className="gap-[32px] flex flex-col w-full mt-[24px] mb:mt-[30px]" 
+      <form
+        className="mb:mt-[30px] mt-[24px] flex w-full flex-col gap-[32px]"
         onSubmit={handleSubmit(onSubmit)}
       >
         <Controller
@@ -177,29 +177,27 @@ export default function LoginForm() {
           variant="customBlue"
           size="full"
           disabled={isButtonDisabled}
-          className="w-[350px] md:w-[640px] mt-[24px]"
+          className="mt-[24px] w-[350px] md:w-[640px]"
         >
           로그인
         </Button>
-        {error && <p className="text-[color:var(--color-red-1)] text-center">{error}</p>}
+        {error && <p className="text-center text-[color:var(--color-red-1)]">{error}</p>}
       </form>
 
-      <p className="flex gap-[10px] font-medium text-gray-900 text-lg mx-auto mt-[32px]">
+      <p className="mx-auto mt-[32px] flex gap-[10px] text-lg font-medium text-gray-900">
         회원이 아니신가요?
         <Link href="/signup" aria-label="회원가입으로 이동">
-          <span className="text-gray-900 text-lg font-medium underline">
-            회원가입 하기
-          </span>
+          <span className="text-lg font-medium text-gray-900 underline">회원가입 하기</span>
         </Link>
       </p>
 
-      <div className="flex gap-[40px] text-md font-regular justify-center items-center whitespace-nowrap md:text-xl mt-[40px] md:mt-[48px]">
-        <div className="w-[180px] h-[1px] bg-gray-300" />
+      <div className="text-md font-regular mt-[40px] flex items-center justify-center gap-[40px] whitespace-nowrap md:mt-[48px] md:text-xl">
+        <div className="h-[1px] w-[180px] bg-gray-300" />
         SNS 계정으로 로그인하기
-        <div className="w-[180px] h-[1px] bg-gray-300" />
+        <div className="h-[1px] w-[180px] bg-gray-300" />
       </div>
 
-      <div className="flex gap-[16px] justify-center items-center mt-[24px] md:mt-[40px]">
+      <div className="mt-[24px] flex items-center justify-center gap-[16px] md:mt-[40px]">
         {/* 소셜 로그인 */}
       </div>
     </div>

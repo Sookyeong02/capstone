@@ -33,7 +33,7 @@ export interface CompanyUser extends CommonUser {
 // 최종 유저 타입
 export type AuthUser = PersonalUser | CompanyUser;
 
-// 로그인 
+// 로그인
 export interface LoginResponse {
   user: AuthUser;
   accessToken: string;

@@ -17,8 +17,8 @@ const isClient = typeof window !== 'undefined';
 export const axiosInstance = axios.create({
   baseURL,
   timeout: 10000,
-  headers: {'Content-Type': 'application/json'},
-  withCredentials: true // Refresh token 쿠키 전송 위해 필요
+  headers: { 'Content-Type': 'application/json' },
+  withCredentials: true, // Refresh token 쿠키 전송 위해 필요
 });
 
 // 인증 없는 요청
@@ -26,13 +26,13 @@ export const publicAxios = axios.create({
   baseURL,
   timeout: 10000,
   headers: { 'Content-Type': 'application/json' },
-  withCredentials: true
+  withCredentials: true,
 });
 
 if (isClient) {
   axiosInstance.interceptors.request.use(
     (config) => config,
-    (error) => Promise.reject(error)
+    (error) => Promise.reject(error),
   );
 
   // 응답 시 401 → 토큰 재발급 시도
@@ -41,7 +41,12 @@ if (isClient) {
     async (error: AxiosError) => {
       const originalConfig = error.config as InternalAxiosRequestConfig;
 
-      if (!originalConfig || !error.response || originalConfig.retry || error.response.status !== 401) {
+      if (
+        !originalConfig ||
+        !error.response ||
+        originalConfig.retry ||
+        error.response.status !== 401
+      ) {
         return Promise.reject(error);
       }
 
@@ -55,37 +60,31 @@ if (isClient) {
         logout();
         window.location.href = '/login';
         return Promise.reject(refreshError);
-      }      
-    }
+      }
+    },
   );
-  
+
   // publicAxios도 에러 핸들링 기본 설정
   publicAxios.interceptors.response.use(
     (response) => response,
-    (error: AxiosError) => Promise.reject(error)
+    (error: AxiosError) => Promise.reject(error),
   );
 }
 
 // 인증된 API 메서드
 export const api = {
   get: <T>(url: string, config = {}) => axiosInstance.get<T>(url, config),
-  post: <T>(url: string, data = {}, config = {}) =>
-    axiosInstance.post<T>(url, data, config),
-  put: <T>(url: string, data = {}, config = {}) =>
-    axiosInstance.put<T>(url, data, config),
+  post: <T>(url: string, data = {}, config = {}) => axiosInstance.post<T>(url, data, config),
+  put: <T>(url: string, data = {}, config = {}) => axiosInstance.put<T>(url, data, config),
   delete: <T>(url: string, config = {}) => axiosInstance.delete<T>(url, config),
-  patch: <T>(url: string, data = {}, config = {}) =>
-    axiosInstance.patch<T>(url, data, config),
+  patch: <T>(url: string, data = {}, config = {}) => axiosInstance.patch<T>(url, data, config),
 };
 
 // 인증이 필요없는 API만 처리
 export const publicApi = {
   get: <T>(url: string, config = {}) => publicAxios.get<T>(url, config),
-  post: <T>(url: string, data = {}, config = {}) =>
-    publicAxios.post<T>(url, data, config),
-  put: <T>(url: string, data = {}, config = {}) =>
-    publicAxios.put<T>(url, data, config),
+  post: <T>(url: string, data = {}, config = {}) => publicAxios.post<T>(url, data, config),
+  put: <T>(url: string, data = {}, config = {}) => publicAxios.put<T>(url, data, config),
   delete: <T>(url: string, config = {}) => publicAxios.delete<T>(url, config),
-  patch: <T>(url: string, data = {}, config = {}) =>
-    axiosInstance.patch<T>(url, data, config),
+  patch: <T>(url: string, data = {}, config = {}) => axiosInstance.patch<T>(url, data, config),
 };

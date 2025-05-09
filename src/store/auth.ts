@@ -1,5 +1,5 @@
-import { AuthUser } from "@/types/auth";
-import { create } from "zustand";
+import { AuthUser } from '@/types/auth';
+import { create } from 'zustand';
 import { persist, createJSONStorage } from 'zustand/middleware';
 
 // Zustand 상태 타입
@@ -24,12 +24,12 @@ export const useAuthStore = create<AuthState>()(
       logout: () => set({ user: null, isAuthenticated: false }),
     }),
     {
-      name: "auth-storage",
+      name: 'auth-storage',
       storage: createJSONStorage(() => localStorage),
       partialize: (state) => ({
         user: state.user,
         isAuthenticated: state.isAuthenticated,
       }),
-    }
-  )
+    },
+  ),
 );
