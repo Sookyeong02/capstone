@@ -56,7 +56,7 @@ export default function LoginForm() {
         password: data.password,
         role,
       });
-      const { user, accessToken, refreshToken } = response.data;
+      const { user } = response.data;
 
       if (user.role !== role) {
         alert('선택한 사용자 유형과 계정 정보가 일치하지 않습니다.');
@@ -64,7 +64,7 @@ export default function LoginForm() {
         return;
       }
 
-      login(user, accessToken, refreshToken);
+      login(user);
       router.push('/');
     } catch (err) {
       const error = err as AxiosError<ErrorResponse>;
