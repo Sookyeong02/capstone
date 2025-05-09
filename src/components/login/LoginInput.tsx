@@ -34,7 +34,7 @@ export default function InputItem({
       <div className="relative">
         <input
           id={passwordinput ? `${id}-password` : id}
-          className={`font-pretendard h-[48px] w-full rounded-[6px] border pl-[20px] text-lg placeholder-gray-300 ${error ? 'border-[color:var(--color-red-100)]' : 'border-gray-300'} focus:border-gray-300 focus:outline-none ${className}`}
+          className={`font-pretendard h-[48px] w-full rounded-[6px] border pl-[20px] text-lg placeholder-gray-300 ${error ? 'border-[color:var(--color-red-1)]' : 'border-gray-300'} focus:border-gray-300 focus:outline-none ${className}`}
           type={passwordinput && !isPasswordVisible ? 'password' : 'text'}
           {...props}
         />
@@ -59,7 +59,7 @@ export default function InputItem({
       </div>
 
       {error && errorMessage && (
-        <p className="font-regular text-xs text-[color:var(--color-red-100)]">{errorMessage}</p>
+        <p className="font-regular text-xs text-[color:var(--color-red-1)]">{errorMessage}</p>
       )}
     </div>
   );
