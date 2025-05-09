@@ -8,13 +8,17 @@ import SearchIcon from '../../../public/icons/search.svg';
 import User from '../../../public/icons/user.svg';
 import { usePathname } from 'next/navigation';
 import { useAuthStore } from '@/store/auth';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import ProfileModal from '../profile/ProfileModal';
 
 export default function Header() {
   const pathname = usePathname();
   const { user, isAuthenticated } = useAuthStore();
   const [isModalOpen, setIsModalOpen] = useState(false);
+
+  useEffect(() => {
+    setIsModalOpen(false);
+  }, [user]);
 
   const hideHeaderPaths = ['/login', '/signup'];
   const shouldHideHeader = hideHeaderPaths.includes(pathname);
