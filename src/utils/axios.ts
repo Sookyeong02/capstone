@@ -57,7 +57,7 @@ if (isClient) {
       originalConfig.retry = true;
 
       try {
-        await publicApi.post('/auth/tokens'); // 쿠키로 자동 전달
+        await publicApi.post('/auth/refresh'); // 쿠키로 자동 전달
         return axiosInstance(originalConfig); // 원본 요청 재시도
       } catch (refreshError) {
         const { logout } = useAuthStore.getState();
