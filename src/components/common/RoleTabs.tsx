@@ -17,7 +17,7 @@ export default function RoleTabs({ value, onChange }: RoleProps) {
           }`}
           onClick={() => onChange(role as 'personal' | 'company')}
         >
-          {role === 'personal' ? '개인' : '기업'}
+          {role === 'personal' ? '사용자' : '기업'}
         </button>
       ))}
     </div>

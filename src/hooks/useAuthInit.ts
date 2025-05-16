@@ -15,13 +15,6 @@ export function useAuthInit() {
   useEffect(() => {
     async function fetchUser() {
       try {
-        // 토큰 재발급 시도
-        await api.post('/auth/tokens');
-      } catch {
-        // 재발급 실패는 무시
-      }
-
-      try {
         const res = await api.get<GetMeResponse>('/auth/me');
         setUser(res.data.user);
       } catch (err) {

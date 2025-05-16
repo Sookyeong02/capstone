@@ -5,7 +5,7 @@ import { publicApi } from '@/utils/axios';
 import { useRouter } from 'next/navigation';
 import { useState } from 'react';
 import RoleTabs from '../common/RoleTabs';
-import LoginInput from './LoginInput';
+import AuthItem from '../common/AuthInput';
 import { Button } from '../ui/Button';
 import { Controller, useForm } from 'react-hook-form';
 import Link from 'next/link';
@@ -68,7 +68,7 @@ export default function LoginForm() {
       router.push('/');
     } catch (err) {
       const error = err as AxiosError<ErrorResponse>;
-      const msg = error.response?.data?.message;
+      const msg = error.response?.data?.message ?? '서버와의 통신 중 오류가 발생했습니다.';
 
       if (msg === '비밀번호가 일치하지 않습니다.') {
         setError('');
@@ -76,7 +76,7 @@ export default function LoginForm() {
         alert('존재하지 않는 사용자입니다.');
       } else {
         console.error('예상치 못한 에러 메시지:', msg);
-        alert('로그인 중 오류가 발생했습니다.');
+        alert(msg);
       }
     } finally {
       setLoading(false);
@@ -123,7 +123,7 @@ export default function LoginForm() {
       <RoleTabs value={role} onChange={setRole} />
 
       <form
-        className="mb:mt-[30px] mt-[24px] flex w-full flex-col gap-[32px]"
+        className="mb:mt-[30px] mt-[24px] flex w-full flex-col gap-[28px]"
         onSubmit={handleSubmit(onSubmit)}
       >
         <Controller
@@ -131,7 +131,7 @@ export default function LoginForm() {
           control={control}
           rules={{ required: '이메일은 필수 입력 사항입니다.' }}
           render={({ field }) => (
-            <LoginInput
+            <AuthItem
               label="이메일"
               id="email"
               type="email"
@@ -154,7 +154,7 @@ export default function LoginForm() {
           control={control}
           rules={{ required: '비밀번호는 필수 입력 사항입니다.' }}
           render={({ field }) => (
-            <LoginInput
+            <AuthItem
               label="비밀번호"
               id="password"
               passwordinput
@@ -184,22 +184,12 @@ export default function LoginForm() {
         {error && <p className="text-center text-[color:var(--color-red-1)]">{error}</p>}
       </form>
 
-      <p className="mx-auto mt-[32px] flex gap-[10px] text-lg font-medium text-gray-900">
+      <p className="mx-auto mt-[32px] mb-[92px] flex gap-[10px] text-lg font-medium text-gray-900 md:mb-[130px]">
         회원이 아니신가요?
         <Link href="/signup" aria-label="회원가입으로 이동">
-          <span className="text-lg font-medium text-gray-900 underline">회원가입 하기</span>
+          <span className="text-custom-blue-100 text-lg font-medium underline">회원가입 하기</span>
         </Link>
       </p>
-
-      <div className="text-md font-regular mt-[40px] flex items-center justify-center gap-[40px] whitespace-nowrap md:mt-[48px] md:text-xl">
-        <div className="h-[1px] w-[180px] bg-gray-300" />
-        SNS 계정으로 로그인하기
-        <div className="h-[1px] w-[180px] bg-gray-300" />
-      </div>
-
-      <div className="mt-[24px] flex items-center justify-center gap-[16px] md:mt-[40px]">
-        {/* 소셜 로그인 */}
-      </div>
     </div>
   );
 }

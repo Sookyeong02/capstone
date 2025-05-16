@@ -45,7 +45,9 @@ if (isClient) {
         !originalConfig ||
         !error.response ||
         originalConfig.retry ||
-        error.response.status !== 401
+        error.response.status !== 401 ||
+        originalConfig.url?.includes('/auth/refresh') ||
+        originalConfig.url?.includes('/auth/me')
       ) {
         return Promise.reject(error);
       }

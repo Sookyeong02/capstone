@@ -2,14 +2,14 @@ import { useState } from 'react';
 import Image from 'next/image';
 
 interface InputProps extends React.InputHTMLAttributes<HTMLInputElement> {
-  label: string;
+  label?: string;
   error?: boolean;
   errorMessage?: string;
   passwordinput?: boolean;
   labelClassName?: string; // label 스타일을 외부에서 지정할 수 있도록 추가
 }
 
-export default function InputItem({
+export default function AuthItem({
   label,
   id,
   error,
