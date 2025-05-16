@@ -25,7 +25,7 @@ export default function PersonalForm() {
   const {
     control,
     handleSubmit,
-    formState: { errors, isValid },
+    formState: { errors },
     getValues,
     setError,
     clearErrors,
@@ -100,13 +100,17 @@ export default function PersonalForm() {
     }
   };
 
+  const values = getValues();
+
   const isButtonDisabled =
-    !isValid ||
-    !!errors.name ||
+    !values.email ||
+    !values.nickname ||
+    !values.password ||
+    !values.passwordConfirm ||
     !!errors.email ||
-    !!errors.nickname ||
     !!errors.password ||
-    !!errors.passwordConfirm;
+    !!errors.passwordConfirm ||
+    !!errors.nickname;
 
   return (
     <form className="flex flex-col gap-[28px]" onSubmit={handleSubmit(onSubmit)}>

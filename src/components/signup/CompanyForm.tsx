@@ -27,7 +27,7 @@ export default function CompanyForm() {
   const {
     control,
     handleSubmit,
-    formState: { errors, isValid },
+    formState: { errors },
     getValues,
     setError,
     clearErrors,
@@ -132,12 +132,19 @@ export default function CompanyForm() {
     }
   };
 
+  const values = getValues();
+
   const isButtonDisabled =
-    !isValid ||
+    !values.email ||
+    !values.companyName ||
+    !values.password ||
+    !values.passwordConfirm ||
+    !values.businessNumber ||
+    !values.businessFile ||
     !!errors.email ||
     !!errors.password ||
-    !!errors.companyName ||
     !!errors.passwordConfirm ||
+    !!errors.companyName ||
     !!errors.businessNumber ||
     !!errors.businessFile;
 
