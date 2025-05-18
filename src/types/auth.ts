@@ -17,6 +17,10 @@ export interface PersonalUser extends CommonUser {
   jobField?: string;
   introduction?: string;
   personalWebsite?: string;
+
+  portfoliosCount?: number;
+  likesReceived?: number;
+  likesGiven?: number;
 }
 
 // 기업 사용자

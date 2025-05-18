@@ -3,6 +3,7 @@
 import { useAuthStore } from '@/store/auth';
 import { api } from '@/utils/axios';
 import Image from 'next/image';
+import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 
 export default function ProfileModal() {
@@ -46,16 +47,16 @@ export default function ProfileModal() {
       <hr />
 
       {user.role === 'personal' ? (
-        <div className="my-[14px] space-y-[8px] px-[26px] text-lg font-light">
-          <div>내 정보</div>
-          <div>내 포트폴리오</div>
-          <div>포트폴리오 등록</div>
+        <div className="my-[14px] flex flex-col space-y-[8px] px-[26px] text-lg font-light">
+          <Link href="/mypage/profile">내 정보</Link>
+          <Link href="/mypage/portfolio-posts">내 포트폴리오</Link>
+          <Link href="/create-portfolio">포트폴리오 등록</Link>
         </div>
       ) : (
-        <div className="my-[14px] space-y-[8px] px-[26px] text-lg font-light">
-          <div>내 정보</div>
-          <div>내 채용 공고</div>
-          <div>채용 공고 등록</div>
+        <div className="my-[14px] flex flex-col space-y-[8px] px-[26px] text-lg font-light">
+          <Link href="/mypage/profile">내 정보</Link>
+          <Link href="/mypage/job-posts">내 채용 공고</Link>
+          <Link href="/mypage/job-posts/create">채용 공고 등록</Link>
         </div>
       )}
 
