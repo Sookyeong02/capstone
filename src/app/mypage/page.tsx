@@ -11,7 +11,7 @@ export default function MyPageEntry() {
     if (window.innerWidth >= 768) {
       router.replace('/mypage/profile');
     }
-  }, []);
+  }, [router]);
 
   return (
     <div className="block md:hidden">

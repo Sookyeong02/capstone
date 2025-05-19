@@ -17,6 +17,7 @@ interface FormValues {
   introduction?: string;
   personalWebsite?: string;
   profileImage?: string;
+  jobField?: string;
 }
 
 export default function PersonalProfile() {
@@ -39,6 +40,7 @@ export default function PersonalProfile() {
       introduction: user?.role === 'personal' ? user.introduction || '' : '',
       personalWebsite: user?.role === 'personal' ? user.personalWebsite || '' : '',
       profileImage: user?.profileImageUrl || '',
+      jobField: user?.role === 'personal' ? user.jobField || '' : '',
     },
   });
 
@@ -53,6 +55,7 @@ export default function PersonalProfile() {
       introduction: user.role === 'personal' ? user.introduction || '' : '',
       personalWebsite: user.role === 'personal' ? user.personalWebsite || '' : '',
       profileImage: user.profileImageUrl || '',
+      jobField: user?.role === 'personal' ? user.jobField || '' : '',
     });
   }, [user, reset]);
 
@@ -77,6 +80,7 @@ export default function PersonalProfile() {
           introduction: data.introduction,
           personalWebsite: data.personalWebsite,
           profileImageUrl: data.profileImage,
+          jobField: data.jobField,
         });
       }
       alert('수정 완료');
@@ -131,13 +135,11 @@ export default function PersonalProfile() {
           control={control}
           render={({ field }) => <Input label="비밀번호" type="password" {...field} />}
         />
-
-        <div className="flex items-center justify-between">
-          <label className="text-lg font-bold">작업분야</label>
-          <button type="button" className="text-sm text-gray-500">
-            작업분야 설정 &gt;
-          </button>
-        </div>
+        <Controller
+          name="jobField"
+          control={control}
+          render={({ field }) => <Input label="작업분야" {...field} />}
+        />
 
         <div>
           <label className="mb-[8px] block text-lg font-bold">소개</label>
