@@ -1,7 +1,6 @@
 'use client';
 
 import { useAuthStore } from '@/store/auth';
-import { publicApi } from '@/utils/axios';
 import { useRouter } from 'next/navigation';
 import { useState } from 'react';
 import RoleTabs from '../common/RoleTabs';
@@ -12,7 +11,6 @@ import Link from 'next/link';
 import { AxiosError } from 'axios';
 import Image from 'next/image';
 import Logo from '../../../public/icons/main-logo.svg';
-import { LoginResponse } from '@/types/auth';
 import { loginUser } from '@/api/auth';
 
 interface FormData {

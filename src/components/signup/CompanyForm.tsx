@@ -1,6 +1,5 @@
 'use client';
 
-import { publicApi } from '@/utils/axios';
 import { AxiosError } from 'axios';
 import { useRouter } from 'next/navigation';
 import { Controller, useForm } from 'react-hook-form';
