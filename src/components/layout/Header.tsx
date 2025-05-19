@@ -8,13 +8,31 @@ import SearchIcon from '../../../public/icons/search.svg';
 import User from '../../../public/icons/user.svg';
 import { usePathname } from 'next/navigation';
 import { useAuthStore } from '@/store/auth';
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import ProfileModal from '../profile/ProfileModal';
 
 export default function Header() {
   const pathname = usePathname();
   const { user, isAuthenticated } = useAuthStore();
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const modalRef = useRef<HTMLDivElement>(null);
+
+  // 모달 외부 클릭 감지
+  useEffect(() => {
+    const handleClickOutside = (e: MouseEvent) => {
+      if (modalRef.current && !modalRef.current.contains(e.target as Node)) {
+        setIsModalOpen(false);
+      }
+    };
+
+    if (isModalOpen) {
+      document.addEventListener('mousedown', handleClickOutside);
+    }
+
+    return () => {
+      document.removeEventListener('mousedown', handleClickOutside);
+    };
+  }, [isModalOpen]);
 
   useEffect(() => {
     setIsModalOpen(false);
@@ -99,8 +117,8 @@ export default function Header() {
               </div>
 
               {isModalOpen && (
-                <div className="absolute top-[35px] right-0 z-40">
-                  <ProfileModal />
+                <div ref={modalRef} className="absolute top-[35px] right-0 z-40">
+                  <ProfileModal closeModal={() => setIsModalOpen(false)} />
                 </div>
               )}
             </div>

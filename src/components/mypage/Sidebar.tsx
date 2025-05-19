@@ -11,7 +11,6 @@ export default function Sidebar() {
   const pathname = usePathname();
   const router = useRouter();
 
-  console.log('[SIDEBAR LOADED]', user);
   if (!user) return null;
 
   const isPersonal = user.role === 'personal';
@@ -66,8 +65,8 @@ export default function Sidebar() {
   };
 
   return (
-    <div className="flex min-h-screen items-start justify-center pt-[100px]">
-      <aside className="w-[300px] rounded-[5px] border border-gray-400">
+    <div className="flex min-h-screen items-start justify-center">
+      <aside className="w-[320px] rounded-[5px] border border-gray-400">
         <div className="flex flex-col">
           <div className="mx-[24px] mt-[20px] flex cursor-pointer items-center gap-[18px]">
             {renderProfile()}

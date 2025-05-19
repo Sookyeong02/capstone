@@ -6,6 +6,7 @@ import { useRouter } from 'next/navigation';
 import { Controller, useForm } from 'react-hook-form';
 import AuthItem from '../common/AuthInput';
 import { Button } from '../ui/Button';
+import { signupPersonal } from '@/api/auth';
 
 interface FormData {
   name: string;
@@ -74,13 +75,7 @@ export default function PersonalForm() {
 
   const onSubmit = async (data: FormData) => {
     try {
-      await publicApi.post('/auth/signup/personal', {
-        name: data.name,
-        email: data.email,
-        nickname: data.nickname,
-        password: data.password,
-        passwordConfirm: data.passwordConfirm,
-      });
+      await signupPersonal(data);
 
       alert('회원가입이 완료되었습니다.');
       router.push('/login');

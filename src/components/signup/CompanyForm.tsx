@@ -7,6 +7,7 @@ import { Controller, useForm } from 'react-hook-form';
 import AuthItem from '../common/AuthInput';
 import { Button } from '../ui/Button';
 import FileUploadItem from './FileUploadItem';
+import { signupCompany, uploadBusinessFile } from '@/api/auth';
 
 interface FormData {
   email: string;
@@ -89,23 +90,14 @@ export default function CompanyForm() {
 
   const onSubmit = async (data: FormData) => {
     try {
-      const fileForm = new FormData();
-      fileForm.append('file', data.businessFile);
-
-      const uploadRes = await publicApi.post<{ url: string }>('/upload/business', fileForm, {
-        headers: {
-          'Content-Type': 'multipart/form-data',
-        },
-      });
-
-      const businessFileUrl = uploadRes.data.url;
+      const businessFileUrl = await uploadBusinessFile(data.businessFile);
 
       if (!businessFileUrl) {
         alert('파일 업로드에 실패했습니다. 다시 시도해주세요.');
         return;
       }
 
-      await publicApi.post('/auth/signup/company', {
+      await signupCompany({
         email: data.email,
         companyName: data.companyName,
         password: data.password,

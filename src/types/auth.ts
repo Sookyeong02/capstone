@@ -43,3 +43,29 @@ export interface LoginResponse {
   accessToken: string;
   refreshToken: string;
 }
+
+// 로그인 요청용 타입
+export interface LoginRequest {
+  email: string;
+  password: string;
+  role: 'personal' | 'company';
+}
+
+// 개인 회원가입 요청용 타입
+export interface SignupPersonalRequest {
+  name: string;
+  email: string;
+  nickname: string;
+  password: string;
+  passwordConfirm: string;
+}
+
+// 기업 회원가입 요청용 타입
+export interface SignupCompanyRequest {
+  email: string;
+  companyName: string;
+  password: string;
+  passwordConfirm: string;
+  businessNumber: string;
+  businessFileUrl: string;
+}
