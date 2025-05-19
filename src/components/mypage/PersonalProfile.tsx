@@ -147,7 +147,10 @@ export default function PersonalProfile() {
             name="introduction"
             control={control}
             render={({ field }) => (
-              <textarea {...field} className="h-[120px] w-full rounded border px-[10px] py-[8px]" />
+              <textarea
+                {...field}
+                className="h-[120px] w-full rounded border px-[10px] py-[8px] focus:outline-none"
+              />
             )}
           />
         </div>
@@ -159,7 +162,7 @@ export default function PersonalProfile() {
             <Input
               label="홈페이지"
               type="url"
-              placeholder="운영중인 개인 홈페이지를 입력해주세요"
+              placeholder="운영중인 개인 홈페이지를 입력해주세요."
               className="placeholder:text-md placeholder:font-bold placeholder:text-gray-400 placeholder:opacity-30"
               {...field}
             />

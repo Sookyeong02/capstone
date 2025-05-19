@@ -136,7 +136,10 @@ export default function CompanyForm() {
           render={({ field }) => (
             <div>
               <label className="mb-[8px] block text-lg font-bold">소개</label>
-              <textarea {...field} className="h-[120px] w-full rounded border px-[10px] py-[8px]" />
+              <textarea
+                {...field}
+                className="h-[120px] w-full rounded border px-[10px] py-[8px] focus:outline-none"
+              />
             </div>
           )}
         />
@@ -147,7 +150,7 @@ export default function CompanyForm() {
             <Input
               label="홈페이지"
               type="url"
-              placeholder="홈페이지를 입력해주세요"
+              placeholder="홈페이지를 입력해주세요."
               className="placeholder:text-md placeholder:font-bold placeholder:text-gray-400 placeholder:opacity-30"
               {...field}
             />

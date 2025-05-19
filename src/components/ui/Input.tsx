@@ -12,7 +12,7 @@ export function Input({ label, error, className = '', ...props }: InputProps) {
       {label && <label className="mb-[8px] text-lg font-bold">{label}</label>}
 
       <input
-        className={`h-[32px] rounded-[5px] border px-[10px] py-[8px] ${
+        className={`border-opacity-30 h-[40px] rounded-[5px] border border-gray-400 px-[10px] py-[8px] focus:outline-none ${
           error ? 'border-red-1' : 'border-gray-300'
         } ${className}`}
         {...props}

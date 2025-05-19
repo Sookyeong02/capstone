@@ -1,10 +1,10 @@
-// 채용공고 
+// 채용공고
 export interface Job {
   id: string;
-  companyId: string;  
+  companyId: string;
   title: string;
   category: string;
-  experience: string,
+  experience: string;
   content?: string;
   link: string;
   deadline: string;
@@ -12,4 +12,15 @@ export interface Job {
   thumbnail?: string;
   createdAt: string;
   updatedAt: string;
+}
+
+// 채용공고 등록 요청
+export default interface JobPayload {
+  title: string;
+  field: string;
+  schedule: string;
+  location: string;
+  description: string;
+  link: string;
+  thumbnailUrl?: string;
 }
