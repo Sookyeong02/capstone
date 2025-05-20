@@ -18,31 +18,55 @@ export default function Home() {
   const [currentPage, setCurrentPage] = useState(1);
   const totalPages = 4;
 
-  const filteredData = data.filter(item =>
-    item.username.toLowerCase().includes(search.toLowerCase())
+  const filteredData = data.filter((item) =>
+    item.username.toLowerCase().includes(search.toLowerCase()),
   );
 
   return (
-    <div className="w-full px-0 py-10" style={{ fontFamily: 'PretendardSemiBold', color: '#0A1B2D' }}>
+    <div
+      className="w-full px-0 py-10"
+      style={{ fontFamily: 'PretendardSemiBold', color: '#0A1B2D' }}
+    >
       {/* 상단 키비주얼 영역 */}
-      <section className="w-full bg-[#EEEEEE] pt-20 pb-0 px-6 relative">
-        <div className="w-full flex items-end justify-between">
-          <div className="z-10 max-w-xl pl-24 pb-0">
-            <h1 className="text-4xl mb-3 text-left whitespace-nowrap -translate-y-1" style={{ fontFamily: 'PretendardBold', color: '#0A191E', textShadow: '3px 3px 8px rgba(0,0,0,0.4)' }}>
+      <section className="relative w-full bg-[#EEEEEE] px-6 pt-20 pb-0">
+        <div className="flex w-full items-end justify-between">
+          <div className="z-10 max-w-xl pb-0 pl-24">
+            <h1
+              className="mb-3 -translate-y-1 text-left text-4xl whitespace-nowrap"
+              style={{
+                fontFamily: 'PretendardBold',
+                color: '#0A191E',
+                textShadow: '3px 3px 8px rgba(0,0,0,0.4)',
+              }}
+            >
               Turn Your Passion Into a Portfolio
             </h1>
-            <p className="text-base text-left mb-4 -translate-y-2 translate-x-1" style={{ fontFamily:'PretendardRegular', color: '#504F4F' }}>
+            <p
+              className="mb-4 translate-x-1 -translate-y-2 text-left text-base"
+              style={{ fontFamily: 'PretendardRegular', color: '#504F4F' }}
+            >
               Build a stunning portfolio to showcase and grow your career
             </p>
-            <img src="/images/keyboard.png" alt="keyboard" className="w-[520px] max-w-none -translate-y-0.1" />
+            <img
+              src="/images/keyboard.png"
+              alt="keyboard"
+              className="-translate-y-0.1 w-[520px] max-w-none"
+            />
           </div>
-          <img src="/images/phone.png" alt="phone" className="w-64 h-auto pr-2 -translate-y-6 -translate-x-15" />
+          <img
+            src="/images/phone.png"
+            alt="phone"
+            className="h-auto w-64 -translate-x-15 -translate-y-6 pr-2"
+          />
         </div>
       </section>
 
       {/* 카테고리 그라데이션 영역 */}
-      <section className="w-full" style={{ background: 'linear-gradient(to bottom, rgba(121,116,126,0.2), transparent)' }}>
-        <div className="grid grid-cols-4 gap-x-1 text-center py-14">
+      <section
+        className="w-full"
+        style={{ background: 'linear-gradient(to bottom, rgba(121,116,126,0.2), transparent)' }}
+      >
+        <div className="grid grid-cols-4 gap-x-1 py-14 text-center">
           {[
             { name: 'Design', icon: '/images/designicon.png' },
             { name: 'Develop', icon: '/images/developicon.png' },
@@ -50,32 +74,36 @@ export default function Home() {
             { name: 'Music', icon: '/images/musicicon.png' },
           ].map((cat) => (
             <div key={cat.name} className="flex flex-col items-center gap-1">
-              <img src={cat.icon} alt={cat.name} className="w-15 h-15" />
+              <img src={cat.icon} alt={cat.name} className="h-15 w-15" />
               <span className="text-sm">{cat.name}</span>
             </div>
           ))}
         </div>
       </section>
 
-       {/* 검색창 */}
-      <section className="flex items-center justify-center mb-8">
+      {/* 검색창 */}
+      <section className="mb-8 flex items-center justify-center">
         <div className="relative w-[85%]">
-          <img src="/images/searchicon.png" alt="search" className="absolute left-3 top-1/2 transform -translate-y-1/2 w-8 h-8" />
+          <img
+            src="/images/searchicon.png"
+            alt="search"
+            className="absolute top-1/2 left-3 h-8 w-8 -translate-y-1/2 transform"
+          />
           <input
             type="text"
             placeholder="원하는 작품을 입력해보세요"
             value={search}
             onChange={(e) => setSearch(e.target.value)}
-            className="w-full pl-10 pr-4 py-2 rounded-full border text-[#0A1B2D] placeholder:text-gray-400"
+            className="w-full rounded-full border py-2 pr-4 pl-10 text-[#0A1B2D] placeholder:text-gray-400"
             style={{
               fontFamily: 'PretendardSemiBold',
               backgroundColor: '#F5F5F5',
-              borderColor: '#0A1B2D'
+              borderColor: '#0A1B2D',
             }}
           />
         </div>
 
-        <button className="ml-2 px-4 py-2 text-sm border border-[#0A1B2D] rounded-full flex items-center gap-1">
+        <button className="ml-2 flex items-center gap-1 rounded-full border border-[#0A1B2D] px-4 py-2 text-sm">
           <span style={{ fontFamily: 'PretendardSemiBold', color: '#0A1B2D' }}>최신순</span>
           <span
             style={{
@@ -84,7 +112,7 @@ export default function Home() {
               color: '#0A1B2D',
               lineHeight: '1',
               position: 'relative',
-              top: '1px'
+              top: '1px',
             }}
           >
             ⌄
@@ -93,7 +121,7 @@ export default function Home() {
       </section>
 
       {/* 포트폴리오 카드 리스트 */}
-      <section className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6 mb-10 px-8">
+      <section className="mb-10 grid grid-cols-1 gap-6 px-8 sm:grid-cols-2 md:grid-cols-3">
         {filteredData.map((item, idx) => (
           <PortfolioCard
             key={idx}
@@ -105,11 +133,7 @@ export default function Home() {
       </section>
 
       {/* 페이지네이션 */}
-      <Pagination
-        currentPage={currentPage}
-        totalPages={totalPages}
-        onPageChange={setCurrentPage}
-      />
+      <Pagination currentPage={currentPage} totalPages={totalPages} onPageChange={setCurrentPage} />
     </div>
   );
 }
