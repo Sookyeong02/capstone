@@ -1,10 +1,28 @@
-@import "tailwindcss";
+@config "../../tailwind.config.ts";
+@import 'tailwindcss';
 
 :root {
-  --background: #ffffff;
+  --background: #fafafa;
   --foreground: #171717;
 }
 
+<<<<<<< HEAD
+=======
+@theme inline {
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --font-sans: var(--font-geist-sans);
+  --font-mono: var(--font-geist-mono);
+}
+
+@theme {
+  --color-custom-blue-200: #0a1b2d;
+  --color-custom-blue-100: #003092;
+  --color-primary-yellow: #ffc23d;
+  --color-red-1: #fd5f5f;
+}
+
+>>>>>>> 06945df756807853186a897c706a97cf1f4c013f
 @media (prefers-color-scheme: dark) {
   :root {
     --background: #0a0a0a;
