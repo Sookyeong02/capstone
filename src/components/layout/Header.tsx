@@ -4,7 +4,6 @@ import Image from 'next/image';
 import Link from 'next/link';
 import Logo from '../../../public/icons/logo.svg';
 import Bell from '../../../public/icons/bell.svg';
-import SearchIcon from '../../../public/icons/search.svg';
 import User from '../../../public/icons/user.svg';
 import { usePathname } from 'next/navigation';
 import { useAuthStore } from '@/store/auth';
@@ -101,11 +100,6 @@ export default function Header() {
             <Image width={20} height={20} src={Bell} alt="알림" />
           </div>
 
-          <div className="text-2lg hidden items-center gap-[4px] font-bold md:flex md:gap-[10px]">
-            <Image width={18} height={18} src={SearchIcon} alt="검색" />
-            <p>Search</p>
-          </div>
-
           {isAuthenticated ? (
             <div className="text-md md:text-2lg relative flex items-center gap-[10px] font-bold">
               <div
@@ -130,7 +124,7 @@ export default function Header() {
           )}
         </div>
 
-        {/* TODO: 알림, 검색창, 로그인 시 프로필 */}
+        {/* TODO: 알림*/}
       </nav>
     </header>
   );
