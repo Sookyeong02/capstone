@@ -15,10 +15,16 @@ export default function RootLayout({
 }) {
   return (
     <html lang="ko" className={pretendard.variable}>
-      <body>
-        {children}
-        <Footer />
-      </body>
-    </html>
+  <body style={{
+    minHeight: '100vh',
+    display: 'flex',
+    flexDirection: 'column'
+  }}>
+    <main style={{ flex: 1 }}>
+      {children}
+    </main>
+    <Footer />
+  </body>
+</html>
   );
 }
