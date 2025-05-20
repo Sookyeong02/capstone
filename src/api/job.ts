@@ -16,7 +16,7 @@ export const uploadJobImage = async (file: File): Promise<string> => {
 };
 
 // 채용공고 등록
-export const createJobPosting = async (jobData: CreateJobPayload) => {
-  const res = await api.post('/jobs', jobData);
+export const createJobPosting = async (data: CreateJobPayload) => {
+  const res = await api.post('/jobs', data);
   return res.data;
 };
