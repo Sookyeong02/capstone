@@ -15,7 +15,7 @@ export interface Job {
 }
 
 // 채용공고 등록 요청
-export default interface JobPayload {
+export default interface CreateJobPayload {
   title: string;
   field: string;
   schedule: string;

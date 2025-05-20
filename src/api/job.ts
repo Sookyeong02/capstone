@@ -1,4 +1,4 @@
-import JobPayload from '@/types/Jobs';
+import CreateJobPayload from '@/types/Jobs';
 import { api } from '@/utils/axios';
 
 // 썸네일 이미지 업로드
@@ -16,7 +16,7 @@ export const uploadJobImage = async (file: File): Promise<string> => {
 };
 
 // 채용공고 등록
-export const createJobPosting = async (payload: JobPayload) => {
-  const res = await api.post('/jobs', payload);
+export const createJobPosting = async (jobData: CreateJobPayload) => {
+  const res = await api.post('/jobs', jobData);
   return res.data;
 };
