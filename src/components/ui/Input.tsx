@@ -8,11 +8,11 @@ interface InputProps extends InputHTMLAttributes<HTMLInputElement> {
 
 export function Input({ label, error, className = '', ...props }: InputProps) {
   return (
-    <div className="flex flex-col gap-1">
-      {label && <label className="font-regular mb-[8px] text-lg">{label}</label>}
+    <div className="flex flex-col">
+      {label && <label className="mb-[8px] text-lg font-bold">{label}</label>}
 
       <input
-        className={`rounded-[5px] border ${
+        className={`border-opacity-30 h-[40px] rounded-[5px] border border-gray-400 px-[10px] py-[8px] focus:outline-none ${
           error ? 'border-red-1' : 'border-gray-300'
         } ${className}`}
         {...props}

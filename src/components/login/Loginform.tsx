@@ -1,7 +1,6 @@
 'use client';
 
 import { useAuthStore } from '@/store/auth';
-import { publicApi } from '@/utils/axios';
 import { useRouter } from 'next/navigation';
 import { useState } from 'react';
 import RoleTabs from '../common/RoleTabs';
@@ -12,7 +11,7 @@ import Link from 'next/link';
 import { AxiosError } from 'axios';
 import Image from 'next/image';
 import Logo from '../../../public/icons/main-logo.svg';
-import { LoginResponse } from '@/types/auth';
+import { loginUser } from '@/api/auth';
 
 interface FormData {
   email: string;
@@ -51,12 +50,7 @@ export default function LoginForm() {
   const onSubmit = async (data: FormData) => {
     setLoading(true);
     try {
-      const response = await publicApi.post<LoginResponse>('auth/login', {
-        email: data.email,
-        password: data.password,
-        role,
-      });
-      const { user } = response.data;
+      const { user } = await loginUser({ ...data, role });
 
       if (user.role !== role) {
         alert('선택한 사용자 유형과 계정 정보가 일치하지 않습니다.');

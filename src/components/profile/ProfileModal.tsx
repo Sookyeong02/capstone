@@ -3,9 +3,10 @@
 import { useAuthStore } from '@/store/auth';
 import { api } from '@/utils/axios';
 import Image from 'next/image';
+import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 
-export default function ProfileModal() {
+export default function ProfileModal({ closeModal }: { closeModal: () => void }) {
   const { user, logout } = useAuthStore();
   const router = useRouter();
 
@@ -30,7 +31,7 @@ export default function ProfileModal() {
             alt="프로필"
             width={60}
             height={60}
-            className="rounded-full object-cover"
+            className="h-[60px] w-[60px] rounded-full object-cover"
           />
         ) : (
           <div className="flex h-[60px] w-[60px] items-center justify-center rounded-full bg-gray-200 text-xl text-white">
@@ -46,16 +47,34 @@ export default function ProfileModal() {
       <hr />
 
       {user.role === 'personal' ? (
-        <div className="my-[14px] space-y-[8px] px-[26px] text-lg font-light">
-          <div>내 정보</div>
-          <div>내 포트폴리오</div>
-          <div>포트폴리오 등록</div>
+        <div className="my-[14px] flex flex-col space-y-[8px] px-[26px] text-lg font-light">
+          <Link href="/mypage/profile" className="hidden md:block" onClick={closeModal}>
+            내 정보
+          </Link>
+          <Link href="/mypage" className="block md:hidden" onClick={closeModal}>
+            내 정보
+          </Link>
+          <Link href="/mypage/portfolio-posts" onClick={closeModal}>
+            내 포트폴리오
+          </Link>
+          <Link href="/create-portfolio" onClick={closeModal}>
+            포트폴리오 등록
+          </Link>
         </div>
       ) : (
-        <div className="my-[14px] space-y-[8px] px-[26px] text-lg font-light">
-          <div>내 정보</div>
-          <div>내 채용 공고</div>
-          <div>채용 공고 등록</div>
+        <div className="my-[14px] flex flex-col space-y-[8px] px-[26px] text-lg font-light">
+          <Link href="/mypage/profile" className="hidden md:block" onClick={closeModal}>
+            내 정보
+          </Link>
+          <Link href="/mypage" className="block md:hidden" onClick={closeModal}>
+            내 정보
+          </Link>
+          <Link href="/mypage/job-posts" onClick={closeModal}>
+            내 채용 공고
+          </Link>
+          <Link href="/mypage/job-posts/create" onClick={closeModal}>
+            채용 공고 등록
+          </Link>
         </div>
       )}
 
