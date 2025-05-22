@@ -71,7 +71,7 @@ export default function Kebab({ jobId, onEdit, onDelete }: JobKebabProps) {
       {isOpen && (
         <div
           ref={menuRef}
-          className="absolute top-[36px] right-[8px] z-40 w-[160px] rounded-[6px] border border-gray-300 bg-white"
+          className="absolute top-[30px] right-[8px] z-40 w-[160px] rounded-[6px] border border-gray-300 bg-white"
         >
           <ul className="text-center">
             <li
