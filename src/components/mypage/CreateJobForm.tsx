@@ -16,8 +16,10 @@ import 'react-datepicker/dist/react-datepicker.css';
 
 interface FormValues {
   title: string;
-  field: string;
-  schedule: string;
+  category: string;
+  deadline: string | null;
+  isDeadlineFlexible: boolean;
+  experience?: string;
   location: string;
   description: string;
   link: string;
@@ -30,7 +32,6 @@ export default function CreateJobForm() {
   const [isAddressModalOpen, setIsAddressModalOpen] = useState(false);
 
   const [isOpenEnded, setIsOpenEnded] = useState(false);
-  const [selectedDate, setSelectedDate] = useState<Date | null>(null);
 
   const {
     control,
@@ -40,8 +41,9 @@ export default function CreateJobForm() {
   } = useForm<FormValues>({
     defaultValues: {
       title: '',
-      field: '',
-      schedule: '',
+      category: '',
+      deadline: null,
+      isDeadlineFlexible: false,
       location: '',
       description: '',
       link: '',
@@ -65,12 +67,14 @@ export default function CreateJobForm() {
       // 채용공고 등록
       await createJobPosting({
         title: data.title,
-        field: data.field,
-        schedule: data.schedule,
+        category: data.category,
+        deadline: data.isDeadlineFlexible ? null : data.deadline,
+        isDeadlineFlexible: data.isDeadlineFlexible,
+        experience: data.experience?.trim() || '경력 무관',
         location: data.location,
         description: data.description,
         link: data.link,
-        thumbnailUrl,
+        thumbnail: thumbnailUrl,
       });
 
       alert('채용공고가 등록되었습니다.');
@@ -84,7 +88,7 @@ export default function CreateJobForm() {
   };
 
   return (
-    <form onSubmit={handleSubmit(onSubmit)} className="">
+    <form onSubmit={handleSubmit(onSubmit)}>
       <div className="mb-[24px] flex items-center justify-between">
         <p className="text-xl font-bold">채용공고 등록</p>
         <Button
@@ -115,7 +119,7 @@ export default function CreateJobForm() {
         />
         <div className="relative w-full">
           <Controller
-            name="field"
+            name="category"
             control={control}
             render={({ field }) => (
               <select
@@ -136,16 +140,26 @@ export default function CreateJobForm() {
         </div>
 
         <Controller
-          name="schedule"
+          name="experience"
+          control={control}
+          render={({ field }) => (
+            <Input
+              placeholder="채용 경력"
+              className="placeholder:text-lg placeholder:font-bold placeholder:text-gray-400 placeholder:opacity-30"
+              {...field}
+            />
+          )}
+        />
+
+        <Controller
+          name="deadline"
           control={control}
           render={({ field }) => (
             <div className="flex flex-col gap-[8px]">
               <DatePicker
-                {...field}
-                selected={selectedDate}
+                selected={field.value ? new Date(field.value) : null}
                 onChange={(date) => {
-                  setSelectedDate(date);
-                  setValue('schedule', date ? date.toISOString().split('T')[0] : '');
+                  field.onChange(date ? date.toISOString().split('T')[0] : null);
                 }}
                 dateFormat="yyyy.MM.dd"
                 placeholderText="채용 일정"
@@ -159,11 +173,9 @@ export default function CreateJobForm() {
                   onChange={(e) => {
                     const checked = e.target.checked;
                     setIsOpenEnded(checked);
+                    setValue('isDeadlineFlexible', checked);
                     if (checked) {
-                      setValue('schedule', '채용 시 마감');
-                      setSelectedDate(null);
-                    } else {
-                      setValue('schedule', '');
+                      setValue('deadline', null);
                     }
                   }}
                 />
