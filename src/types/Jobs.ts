@@ -1,6 +1,6 @@
 // 채용공고
 export interface Job {
-  _id: string;
+  id: string;
   companyId: string;
   title: string;
   category: string;

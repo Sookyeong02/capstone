@@ -48,7 +48,7 @@ export default function JobsList({ jobs }: JobsListProps) {
 
         <div className="mx-0 grid w-full grid-cols-2 gap-x-[8px] gap-y-[4px] sm:gap-x-[16px] md:grid-cols-3 md:gap-x-[80px] md:gap-y-[40px] lg:grid-cols-4">
           {filtered.slice(0, 12).map((job) => (
-            <JobCard key={job._id} job={job} />
+            <JobCard key={job.id} job={job} />
           ))}
         </div>
 

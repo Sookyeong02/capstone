@@ -1,3 +1,9 @@
-export default function JobPosts() {
-  return <div>내 채용 공고</div>;
+import MyJobList from '@/components/mypage/MyJobList';
+
+export default function PortfolioPosts() {
+  return (
+    <div>
+      <MyJobList />
+    </div>
+  );
 }
