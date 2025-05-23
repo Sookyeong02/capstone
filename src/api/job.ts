@@ -45,8 +45,8 @@ export const fetchJobs = async ({
 
 // 내 채용공고 조회
 export const fetchMyJobs = async (): Promise<Job[]> => {
-  const res = await api.get<{ data: Job[] }>('/user/jobs');
-  return res.data.data || [];
+  const res = await api.get<Job[]>('/user/jobs');
+  return res.data;
 };
 
 // 채용공고 상세조회
