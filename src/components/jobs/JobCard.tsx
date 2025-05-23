@@ -35,9 +35,13 @@ export function JobCard({ job }: JobCardProps) {
           <Link
             href={startHttp ? job.link : `https://${job.link}`}
             target="_blank"
-            className="max-w-[90%] flex-1"
+            className="flex-1"
           >
-            <p className="max-w-[calc(100%-40px)] text-lg font-bold hover:underline md:text-xl">
+            <p
+              className={`text-lg font-bold hover:underline md:text-xl ${
+                isMine ? 'max-w-[calc(100%-10px)]' : 'w-full'
+              }`}
+            >
               {job.title}
             </p>
           </Link>

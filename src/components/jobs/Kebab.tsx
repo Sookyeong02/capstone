@@ -65,7 +65,7 @@ export default function Kebab({ jobId, onEdit, onDelete }: JobKebabProps) {
   return (
     <div className="relative" onClick={(e) => e.stopPropagation()}>
       <button ref={buttonRef} onClick={toggleMenu} className="px-[12px]">
-        <Image src={kebab} alt="케밥 메뉴" width={6} height={20} />
+        <Image src={kebab} alt="케밥 메뉴" width={6} height={20} className="py-[2px] md:py-[3px]" />
       </button>
 
       {isOpen && (
