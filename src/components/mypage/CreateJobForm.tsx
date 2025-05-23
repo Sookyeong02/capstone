@@ -37,6 +37,7 @@ export default function CreateJobForm() {
     control,
     handleSubmit,
     setValue,
+    watch,
     formState: { isSubmitting },
   } = useForm<FormValues>({
     defaultValues: {
@@ -87,6 +88,10 @@ export default function CreateJobForm() {
     }
   };
 
+  const watchedFields = watch(['title', 'category', 'location', 'link']);
+
+  const isFormValid = watchedFields.every((field) => field && field.trim() !== '');
+
   return (
     <form onSubmit={handleSubmit(onSubmit)}>
       <div className="mb-[24px] flex items-center justify-between">
@@ -95,7 +100,7 @@ export default function CreateJobForm() {
           variant="customBlue"
           size="medium"
           type="submit"
-          disabled={uploading || isSubmitting}
+          disabled={uploading || isSubmitting || !isFormValid}
         >
           저장
         </Button>

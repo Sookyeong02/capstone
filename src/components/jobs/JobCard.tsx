@@ -31,17 +31,25 @@ export function JobCard({ job }: JobCardProps) {
       </div>
 
       <div>
-        <div className="flex items-start justify-between gap-2">
-          <Link href={startHttp ? job.link : `https://${job.link}`} target="_blank">
-            <p className="text-lg font-bold hover:underline md:text-xl">{job.title}</p>
+        <div className="relative flex items-start justify-between gap-2 overflow-visible">
+          <Link
+            href={startHttp ? job.link : `https://${job.link}`}
+            target="_blank"
+            className="max-w-[90%] flex-1"
+          >
+            <p className="max-w-[calc(100%-40px)] text-lg font-bold hover:underline md:text-xl">
+              {job.title}
+            </p>
           </Link>
 
           {isMine && (
-            <Kebab
-              jobId={job.id}
-              onEdit={() => (window.location.href = `/mypage/job-posts/edit/${job.id}`)}
-              onDelete={() => window.location.reload()}
-            />
+            <div className="shrink-0">
+              <Kebab
+                jobId={job.id}
+                onEdit={() => (window.location.href = `/mypage/job-posts/edit/${job.id}`)}
+                onDelete={() => window.location.reload()}
+              />
+            </div>
           )}
         </div>
 
