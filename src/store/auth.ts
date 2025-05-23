@@ -2,6 +2,8 @@ import { AuthUser, CompanyUser, PersonalUser } from '@/types/auth';
 import { create } from 'zustand';
 import { persist, createJSONStorage } from 'zustand/middleware';
 
+type UserWithPossibleId = AuthUser & { _id?: string };
+
 // Zustand 상태 타입
 interface AuthState {
   user: AuthUser | null;
@@ -23,8 +25,30 @@ export const useAuthStore = create<AuthState>()(
       user: null,
       isAuthenticated: false,
 
-      setUser: (user) => set({ user, isAuthenticated: !!user }),
-      login: (user) => set({ user, isAuthenticated: true }),
+      // setUser: (user) => set({ user, isAuthenticated: !!user }),
+      // login: (user) => set({ user, isAuthenticated: true }),
+      setUser: (user) => {
+        if (!user) {
+          set({ user: null, isAuthenticated: false });
+          return;
+        }
+
+        const normalizedUser = {
+          ...user,
+          id: (user as UserWithPossibleId)._id ?? user.id,
+        };
+
+        set({ user: normalizedUser, isAuthenticated: true });
+      },
+
+      login: (user) => {
+        const normalizedUser = {
+          ...user,
+          id: (user as UserWithPossibleId)._id ?? user.id,
+        };
+
+        set({ user: normalizedUser, isAuthenticated: true });
+      },
       logout: () => set({ user: null, isAuthenticated: false }),
 
       updateProfileImage: (imageUrl: string) =>

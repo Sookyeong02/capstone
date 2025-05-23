@@ -3,7 +3,7 @@ import React from 'react';
 
 const Footer = () => {
   return (
-    <footer className="bg-[#0A1B2D] px-5 py-10 text-center font-[PretendardSemiBold] text-white">
+    <footer className="mt-[260px] bg-[#0A1B2D] px-5 py-10 text-center font-[PretendardSemiBold] text-white">
       <div className="mx-auto flex max-w-3xl flex-col items-center">
         <Image
           src="/images/logo.png"

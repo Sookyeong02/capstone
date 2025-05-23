@@ -6,8 +6,6 @@
   --foreground: #171717;
 }
 
-<<<<<<< HEAD
-=======
 @theme inline {
   --color-background: var(--background);
   --color-foreground: var(--foreground);
@@ -22,7 +20,6 @@
   --color-red-1: #fd5f5f;
 }
 
->>>>>>> 06945df756807853186a897c706a97cf1f4c013f
 @media (prefers-color-scheme: dark) {
   :root {
     --background: #0a0a0a;
@@ -44,11 +41,18 @@
   font-style: normal;
 }
 
-
 body {
-  margin: 0; 
+  margin: 0;
   padding: 0;
   background: var(--background);
   color: var(--foreground);
   font-family: Arial, Helvetica, sans-serif;
+}
+
+.scrollbar-hide::-webkit-scrollbar {
+  display: none;
+}
+.scrollbar-hide {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
 }
