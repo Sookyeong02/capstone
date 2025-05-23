@@ -39,7 +39,7 @@ export function JobCard({ job }: JobCardProps) {
           {isMine && (
             <Kebab
               jobId={job.id}
-              onEdit={() => (window.location.href = `/jobs/edit/${job.id}`)}
+              onEdit={() => (window.location.href = `/mypage/job-posts/edit/${job.id}`)}
               onDelete={() => window.location.reload()}
             />
           )}

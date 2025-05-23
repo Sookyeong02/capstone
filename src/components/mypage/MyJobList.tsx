@@ -25,7 +25,7 @@ export default function MyJobList() {
   }, []);
 
   if (jobs.length === 0 && !error) {
-    return <p>등록된 채용공고가 없습니다.</p>;
+    return <p className="mt-6 text-center text-gray-500">등록된 채용공고가 없습니다.</p>;
   }
 
   return (

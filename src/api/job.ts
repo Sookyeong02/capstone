@@ -49,6 +49,11 @@ export const fetchMyJobs = async (): Promise<Job[]> => {
   return res.data.data;
 };
 
+// 채용공고 상세조회
+export const getJobDetail = (id: string): Promise<Job> => {
+  return api.get<Job>(`/jobs/${id}`).then((res) => res.data);
+};
+
 // 채용공고 삭제
 export const deleteJobPosting = async (jobId: string): Promise<void> => {
   await api.delete(`/jobs/${jobId}`);
