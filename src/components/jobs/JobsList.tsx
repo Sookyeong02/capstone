@@ -6,6 +6,7 @@ import { Job } from '@/types/Jobs';
 
 interface JobsListProps {
   jobs?: Job[];
+  loading: boolean;
 }
 
 const categories = [
@@ -16,7 +17,7 @@ const categories = [
   { label: 'Music', value: 'music' },
 ];
 
-export default function JobsList({ jobs }: JobsListProps) {
+export default function JobsList({ jobs, loading }: JobsListProps) {
   const [selected, setSelected] = useState<string>('all');
 
   const filtered = jobs
@@ -47,12 +48,17 @@ export default function JobsList({ jobs }: JobsListProps) {
         </div>
 
         <div className="mx-0 grid w-full grid-cols-2 gap-x-[8px] gap-y-[4px] sm:gap-x-[16px] md:grid-cols-3 md:gap-x-[80px] md:gap-y-[40px] lg:grid-cols-4">
-          {filtered.slice(0, 12).map((job) => (
-            <JobCard key={job.id} job={job} />
-          ))}
+          {loading
+            ? Array.from({ length: 12 }).map((_, i) => (
+                <div
+                  key={i}
+                  className="h-[250px] w-full animate-pulse rounded-[10px] bg-gray-300"
+                />
+              ))
+            : filtered.slice(0, 12).map((job) => <JobCard key={job.id} job={job} />)}
         </div>
 
-        {filtered.length === 0 && (
+        {!loading && filtered.length === 0 && (
           <p className="mt-6 text-center text-gray-500">등록된 채용공고가 없습니다.</p>
         )}
       </section>

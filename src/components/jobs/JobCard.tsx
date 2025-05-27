@@ -25,6 +25,7 @@ export function JobCard({ job }: JobCardProps) {
             alt="채용공고 썸네일"
             width={320}
             height={250}
+            priority={true}
             className="h-[168px] w-full rounded-[10px] object-cover sm:h-[220px] md:h-[250px]"
           />
         </Link>
