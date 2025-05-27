@@ -1,16 +1,17 @@
 'use client';
 
 import { useState } from 'react';
-import { Input } from '@/components/ui/Input';
-import { Button } from '@/components/ui/Button';
+import { useForm, Controller } from 'react-hook-form';
 import { useRouter } from 'next/navigation';
-import { Controller, useForm } from 'react-hook-form';
-import JobThumbnail from './JobThumbnail';
-import Image from 'next/image';
-import DownArrow from '../../../public/icons/down-arrow.svg';
-import { createJobPosting, uploadJobImage } from '@/api/job';
+import { Job } from '@/types/Jobs';
+import { updateJobPosting, uploadJobImage } from '@/api/job';
+import JobThumbnail from '../../components/mypage/JobThumbnail';
 import AddressModal from '@/components/mypage/AddressModal';
 import { Address } from 'react-daum-postcode';
+import { Input } from '@/components/ui/Input';
+import { Button } from '@/components/ui/Button';
+import DownArrow from '../../../public/icons/down-arrow.svg';
+import Image from 'next/image';
 import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
 
@@ -26,28 +27,31 @@ interface FormValues {
   thumbnail?: File;
 }
 
-export default function CreateJobForm() {
+interface EditJobFormProps {
+  job: Job;
+}
+
+export default function EditJobForm({ job }: EditJobFormProps) {
   const router = useRouter();
   const [uploading, setUploading] = useState(false);
   const [isAddressModalOpen, setIsAddressModalOpen] = useState(false);
-
-  const [isOpenEnded, setIsOpenEnded] = useState(false);
+  const [isOpenEnded, setIsOpenEnded] = useState(job.isDeadlineFlexible || false);
 
   const {
     control,
     handleSubmit,
     setValue,
-    watch,
     formState: { isSubmitting },
   } = useForm<FormValues>({
     defaultValues: {
-      title: '',
-      category: '',
-      deadline: null,
-      isDeadlineFlexible: false,
-      location: '',
-      description: '',
-      link: '',
+      title: job.title,
+      category: job.category || '',
+      deadline: job.deadline ? new Date(job.deadline).toISOString().split('T')[0] : null,
+      isDeadlineFlexible: job.isDeadlineFlexible || false,
+      experience: job.experience || '',
+      location: job.location || '',
+      description: job.content || '',
+      link: job.link,
     },
   });
 
@@ -58,15 +62,13 @@ export default function CreateJobForm() {
   const onSubmit = async (data: FormValues) => {
     try {
       setUploading(true);
-
-      let thumbnailUrl = '';
+      let thumbnailUrl = job.thumbnail;
 
       if (data.thumbnail instanceof File) {
         thumbnailUrl = await uploadJobImage(data.thumbnail);
-      } // 썸네일 이미지가 있다면 업로드
+      }
 
-      // 채용공고 등록
-      await createJobPosting({
+      await updateJobPosting(job.id, {
         title: data.title,
         category: data.category,
         deadline: data.isDeadlineFlexible ? null : data.deadline,
@@ -78,36 +80,32 @@ export default function CreateJobForm() {
         thumbnail: thumbnailUrl,
       });
 
-      alert('채용공고가 등록되었습니다.');
-      router.push('/jobs');
+      alert('채용공고가 수정되었습니다.');
+      router.push('/mypage/job-posts');
     } catch (err) {
       console.error(err);
-      alert('등록 실패');
+      alert('수정 실패');
     } finally {
       setUploading(false);
     }
   };
 
-  const watchedFields = watch(['title', 'category', 'location', 'link']);
-
-  const isFormValid = watchedFields.every((field) => field && field.trim() !== '');
-
   return (
     <form onSubmit={handleSubmit(onSubmit)}>
       <div className="mb-[24px] flex items-center justify-between">
-        <p className="text-xl font-bold">채용공고 등록</p>
+        <p className="text-xl font-bold">채용공고 수정</p>
         <Button
           variant="customBlue"
           size="medium"
           type="submit"
-          disabled={uploading || isSubmitting || !isFormValid}
+          disabled={uploading || isSubmitting}
         >
           저장
         </Button>
       </div>
 
       <div className="mb-[36px]">
-        <JobThumbnail onFileSelect={handleThumbnail} />
+        <JobThumbnail initialImageUrl={job.thumbnail} onFileSelect={handleThumbnail} />
       </div>
 
       <div className="flex flex-col gap-[24px]">
@@ -122,6 +120,7 @@ export default function CreateJobForm() {
             />
           )}
         />
+
         <div className="relative w-full">
           <Controller
             name="category"
@@ -215,19 +214,17 @@ export default function CreateJobForm() {
           )}
         />
 
-        <div>
-          <Controller
-            name="description"
-            control={control}
-            render={({ field }) => (
-              <textarea
-                {...field}
-                placeholder="채용 설명"
-                className="border-opacity-30 h-[120px] w-full rounded border border-gray-400 px-[10px] py-[8px] placeholder:text-lg placeholder:font-bold placeholder:text-gray-400 placeholder:opacity-30 focus:outline-none"
-              />
-            )}
-          />
-        </div>
+        <Controller
+          name="description"
+          control={control}
+          render={({ field }) => (
+            <textarea
+              {...field}
+              placeholder="채용 설명"
+              className="border-opacity-30 h-[120px] w-full rounded border border-gray-400 px-[10px] py-[8px] placeholder:text-lg placeholder:font-bold placeholder:text-gray-400 placeholder:opacity-30 focus:outline-none"
+            />
+          )}
+        />
 
         <Controller
           name="link"

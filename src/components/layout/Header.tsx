@@ -12,7 +12,8 @@ import ProfileModal from '../profile/ProfileModal';
 
 export default function Header() {
   const pathname = usePathname();
-  const { user, isAuthenticated } = useAuthStore();
+  const user = useAuthStore((state) => state.user);
+  const isAuthenticated = useAuthStore((state) => state.isAuthenticated);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const modalRef = useRef<HTMLDivElement>(null);
 
@@ -52,7 +53,8 @@ export default function Header() {
     if (user?.profileImageUrl) {
       return (
         <Image
-          src={user.profileImageUrl}
+          key={user?.profileImageUrl}
+          src={`${user.profileImageUrl}?t=${new Date().getTime()}`}
           alt="프로필 이미지"
           width={32}
           height={32}
