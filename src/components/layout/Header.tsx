@@ -14,7 +14,6 @@ export default function Header() {
   const pathname = usePathname();
   const user = useAuthStore((state) => state.user);
   const isAuthenticated = useAuthStore((state) => state.isAuthenticated);
-
   const [isModalOpen, setIsModalOpen] = useState(false);
   const modalRef = useRef<HTMLDivElement>(null);
 
