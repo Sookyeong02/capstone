@@ -9,8 +9,20 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "@headlessui/react": "^2.2.4",
+    "@tiptap/extension-code-block-lowlight": "^2.12.0",
+    "@tiptap/extension-font-family": "^2.12.0",
+    "@tiptap/extension-font-size": "^3.0.0-next.3",
+    "@tiptap/extension-image": "^2.12.0",
+    "@tiptap/extension-text-align": "^2.12.0",
+    "@tiptap/extension-text-style": "^2.12.0",
+    "@tiptap/extension-underline": "^2.12.0",
+    "@tiptap/react": "^2.12.0",
+    "@tiptap/starter-kit": "^2.12.0",
     "axios": "^1.9.0",
     "date-fns": "^4.1.0",
+    "highlight.js": "^11.11.1",
+    "lowlight": "^3.3.0",
     "next": "15.2.4",
     "react": "^19.0.0",
     "react-datepicker": "^8.3.0",
@@ -22,6 +34,7 @@
   "devDependencies": {
     "@eslint/eslintrc": "^3",
     "@tailwindcss/postcss": "^4",
+    "@types/highlight.js": "^9.12.4",
     "@types/node": "^20",
     "@types/react": "^19",
     "@types/react-dom": "^19",
