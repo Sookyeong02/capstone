@@ -1,0 +1,1 @@
+declare module '@tiptap/extension-code-block-lowlight'

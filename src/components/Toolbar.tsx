@@ -1,30 +1,30 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { Dialog } from '@headlessui/react';
 import { useEditor, EditorContent } from '@tiptap/react';
 import StarterKit from '@tiptap/starter-kit';
-import TextStyle from '@tiptap/extension-text-style';
+import { TextStyle } from '@tiptap/extension-text-style';
 import FontFamily from '@tiptap/extension-font-family';
-import FontSize from '@tiptap/extension-font-size';
+import FontSize from '@/app/upload/extensions/FontSize' 
 import Image from '@tiptap/extension-image';
 import { CodeBlock } from '@tiptap/extension-code-block';
-import { Editor } from '@tiptap/react';
+import type { EditorView } from 'prosemirror-view';
 
 type ToolbarProps = {
-  editor: Editor;
+  editor: ReturnType<typeof useEditor> | null;
 };
 
 const CustomCodeBlock = CodeBlock.extend({
   addKeyboardShortcuts() {
     return {
-      Enter: () => true, // Enter 눌러도 줄바꿈 되지 않게
+      Enter: () => true, 
     };
   },
 });
 
 export default function Toolbar({ editor }: ToolbarProps) {
-
+  
   const [isCodeModalOpen, setIsCodeModalOpen] = useState(false);
   const [codeContent, setCodeContent] = useState('');
   const [language, setLanguage] = useState('js');
@@ -33,27 +33,29 @@ export default function Toolbar({ editor }: ToolbarProps) {
   const localeditor = useEditor({
     extensions: [StarterKit, TextStyle, FontFamily, FontSize, Image, CustomCodeBlock],
     content: '',
+    immediatelyRender: false,
     editorProps: {
       attributes: { class: 'prose min-h-[400px] p-4 border rounded' },
       handleDOMEvents: {
-        click: (view, event) => {
-          const target = event.target as HTMLElement;
-          const pre = target.closest('pre');
-          if (!pre) return false;
+        click: (view: EditorView, event: MouseEvent) => {
+        const target = event.target as HTMLElement;
+        const pre = target.closest('pre');
+        if (!pre) return false;
 
-          const pos = view.posAtDOM(pre, 0);
-          const node = view.state.doc.nodeAt(pos);
+        const pos = view.posAtDOM(pre, 0);
+        const node = view.state.doc.nodeAt(pos);
 
-          if (node?.type.name === 'codeBlock') {
-            setCurrentCodePos(pos);
-            setCodeContent(node.textContent || '');
-            setLanguage(node.attrs.language || 'js');
-            setIsCodeModalOpen(true);
-            return true;
-          }
-          return false;
-        },
+        if (node?.type.name === 'codeBlock') {
+          setCurrentCodePos(pos);
+          setCodeContent(node.textContent || '');
+          setLanguage(node.attrs.language || 'js');
+          setIsCodeModalOpen(true);
+          return true;
+        }
+
+        return false;
       },
+    },
     },
   });
 
@@ -131,12 +133,17 @@ export default function Toolbar({ editor }: ToolbarProps) {
           <option value="'Times New Roman'">Times New Roman</option>
         </select>
 
-        <select onChange={(e) => editor?.chain().focus().setFontSize(e.target.value).run()} className="border rounded px-2 py-1 text-sm" defaultValue="16px">
-          <option value="12px">12</option>
-          <option value="14px">14</option>
-          <option value="16px">16</option>
-          <option value="18px">18</option>
-          <option value="20px">20</option>
+        <select
+          onChange={(e) =>
+            editor?.chain().focus().setFontSize(e.target.value).run()
+          }
+        >
+
+          <option value="12">12</option>
+          <option value="14">14</option>
+          <option value="16">16</option>
+          <option value="18">18</option>
+          <option value="20">20</option>
         </select>
 
         <button onClick={() => editor?.chain().focus().setTextAlign('left').run()}>

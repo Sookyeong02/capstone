@@ -1,27 +1,22 @@
-import { Extension } from '@tiptap/core'
+import { TextStyle } from '@tiptap/extension-text-style'
 
-export const FontFamily = Extension.create({
-  name: 'fontFamily',
-
-  addGlobalAttributes() {
-    return [
-      {
-        types: ['textStyle'],
-        attributes: {
-          fontFamily: {
-            default: null,
-            parseHTML: element => ({
-              fontFamily: element.style.fontFamily.replace(/['"]/g, ''),
-            }),
-            renderHTML: attributes => {
-              if (!attributes.fontFamily) return {}
-              return {
-                style: `font-family: ${attributes.fontFamily}`,
-              }
-            },
-          },
+export const FontFamily = TextStyle.extend({
+  addAttributes() {
+    return {
+      fontFamily: {
+        default: null,
+        parseHTML: (element: HTMLElement) => ({
+          fontFamily: element.style.fontFamily.replace(/['"]/g, ''),
+        }),
+        renderHTML: (attributes: { fontFamily?: string }) => {
+          if (!attributes.fontFamily) return {}
+          return {
+            style: `font-family: ${attributes.fontFamily}`,
+          }
         },
       },
-    ]
+    }
   },
 })
+
+export default FontFamily

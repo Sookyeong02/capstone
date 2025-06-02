@@ -5,24 +5,15 @@ import Pagination from '@/components/common/pagination';
 import PortfolioCard from '@/components/portfolio/portfoliocard';
 import { Portfolio, getAllPortfolios } from '@/api/portfolio';
 
-const data = [
-  { imageUrl: '/images/card01.png', username: 'shy', likes: 27, category: 'design' },
-  { imageUrl: '/images/card02.png', username: 'shy1', likes: 19, category: 'develop' },
-  { imageUrl: '/images/card03.png', username: 'shy2', likes: 42, category: 'video' },
-  { imageUrl: '/images/card04.png', username: 'shy3', likes: 33, category: 'music' },
-  { imageUrl: '/images/card05.png', username: 'shy4', likes: 24, category: 'design' },
-  { imageUrl: '/images/card06.png', username: 'shy5', likes: 15, category: 'develop' },
-];
-
 export default function Home() {
   const [search, setSearch] = useState('');
   const [currentPage, setCurrentPage] = useState(1);
   const [selectedCategory, setSelectedCategory] = useState<string | null>(null);
-  const totalPages = 4;
   const [sortBy, setSortBy] = useState<'latest' | 'likes'>('latest');
   const [isSortOpen, setIsSortOpen] = useState(false);
-
   const [portfolios, setPortfolios] = useState<Portfolio[]>([]);
+
+  const totalPages = 4; 
 
   useEffect(() => {
     const fetchData = async () => {
@@ -35,45 +26,53 @@ export default function Home() {
     };
 
     fetchData();
-  }, [])
+  }, []);
 
-  const filteredData = Array.isArray(portfolios)
-  ? portfolios
-      .filter((item) => {
-        const matchesSearch = item.title.toLowerCase().includes(search.toLowerCase());
-        const matchesCategory = selectedCategory ? item.category === selectedCategory : true;
-        return matchesSearch && matchesCategory;
-      })
-      .sort((a, b) => {
-        if (sortBy === 'latest') {
-          return new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime();
-        } else {
-          return (b.likes ?? 0) - (a.likes ?? 0);
-        }
-      })
-  : [];
+  const filteredData = portfolios
+    .filter((item) => {
+      const matchesSearch = item.title.toLowerCase().includes(search.toLowerCase());
+      const matchesCategory = selectedCategory ? item.category === selectedCategory : true;
+      return matchesSearch && matchesCategory;
+    })
+    .sort((a, b) => {
+      if (sortBy === 'latest') {
+        return new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime();
+      } else {
+        return (b.likes ?? 0) - (a.likes ?? 0);
+      }
+    });
 
 
   return (
     <div className="w-full px-0" style={{ fontFamily: 'PretendardSemiBold', color: '#0A1B2D' }}>
       {/* 상단 키비주얼 */}
-      <section className="relative w-full bg-[#EEEEEE] px-6 pt-20 pb-0">
-        <div className="flex w-full items-end justify-between">
-          <div className="z-10 max-w-xl pb-0 pl-24">
-            <h1 className="mb-3 translate-x-12 -translate-y-1 text-left text-5xl whitespace-nowrap"
-              style={{ fontFamily: 'PretendardBold', color: '#0A191E', textShadow: '3px 3px 8px rgba(0,0,0,0.4)' }}>
-              Turn Your Passion Into a Portfolio
-            </h1>
-            <p className="mb-4 translate-x-13 -translate-y-2 text-left text-base"
-              style={{ fontFamily: 'PretendardRegular', color: '#504F4F' }}>
-              Build a stunning portfolio to showcase and grow your career
-            </p>
-            <img src="/images/keyboard.png" alt="keyboard"
-              className="translate-x-11 -translate-y-0.1 w-[800px] max-w-none" />
-          </div>
-          <img src="/images/phone.png" alt="phone" className="h-auto w-75 -translate-x-40 -translate-y-8 pr-2" />
-        </div>
-      </section>
+      <section className="relative w-full bg-[#EEEEEE] pt-12 pb-0">
+  <div className="flex flex-col lg:flex-row items-center lg:items-end justify-between px-6 lg:px-24 max-w-[1440px] mx-auto">
+    <div className="z-10 flex flex-col items-center lg:items-start text-center lg:text-left">
+      <h1 className="mb-3 text-3xl lg:text-5xl font-bold px-1"
+        style={{ fontFamily: 'PretendardBold', color: '#0A191E', textShadow: '3px 3px 8px rgba(0,0,0,0.4)' }}>
+        Turn Your Passion Into a Portfolio
+      </h1>
+      <p className="mb-4 text-base py-1 px-3"
+        style={{ fontFamily: 'PretendardRegular', color: '#504F4F' }}>
+        Build a stunning portfolio to showcase and grow your career
+      </p>
+      <img
+        src="/images/keyboard.png"
+        alt="keyboard"
+        className="w-[800px] h-auto"
+      />
+    </div>
+    <div className="hidden lg:block pr-2 py-15">
+      <img
+        src="/images/phone.png"
+        alt="phone"
+        className="w-[260px] h-auto"
+      />
+    </div>
+  </div>
+</section>
+
 
       {/* 카테고리 */}
       <section className="w-full" style={{ background: 'linear-gradient(to bottom, rgba(121,116,126,0.2), transparent)' }}>
@@ -171,7 +170,6 @@ export default function Home() {
               likes={item.likes}
               showMenu={false}
             />
-
             <div className="mt-2 flex items-center gap-4 pl-2 text-[#0A1B2D] text-sm font-semibold">
               <span className="flex items-center gap-1">
                 <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 20 20">
@@ -190,7 +188,6 @@ export default function Home() {
         ))}
       </section>
 
-      {/* 페이지네이션 */}
       <Pagination currentPage={currentPage} totalPages={totalPages} onPageChange={setCurrentPage} />
       <div className="mb-10" />
     </div>
