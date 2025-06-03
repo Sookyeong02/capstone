@@ -1,3 +1,4 @@
+import 'highlight.js/styles/github.css';
 import '@/styles/globals.css';
 import { pretendard } from './fonts';
 import type { Metadata } from 'next';

@@ -1,4 +1,5 @@
 import Sidebar from '@/components/mypage/Sidebar';
+import 'highlight.js/styles/github.css'; // 또는 원하는 테마로 교체 가능
 
 export default function MypageLayout({ children }: { children: React.ReactNode }) {
   return (
