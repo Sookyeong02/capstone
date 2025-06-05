@@ -9,6 +9,9 @@ import { usePathname } from 'next/navigation';
 import { useAuthStore } from '@/store/auth';
 import { useEffect, useRef, useState } from 'react';
 import ProfileModal from '../profile/ProfileModal';
+import { fetchNotifications } from '@/api/notification';
+import NotificationModal from '../profile/Notification';
+import { Notification } from '@/types/notification';
 
 export default function Header() {
   const pathname = usePathname();
@@ -16,6 +19,10 @@ export default function Header() {
   const isAuthenticated = useAuthStore((state) => state.isAuthenticated);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const modalRef = useRef<HTMLDivElement>(null);
+
+  const [isNotiOpen, setIsNotiOpen] = useState(false);
+  const [notifications, setNotifications] = useState<Notification[]>([]);
+  const notiRef = useRef<HTMLDivElement>(null);
 
   // 모달 외부 클릭 감지
   useEffect(() => {
@@ -38,6 +45,40 @@ export default function Header() {
     setIsModalOpen(false);
   }, [user]);
 
+  // 외부 클릭 감지 (알림)
+  useEffect(() => {
+    const handleClickOutside = (e: MouseEvent) => {
+      if (notiRef.current && !notiRef.current.contains(e.target as Node)) {
+        setIsNotiOpen(false);
+      }
+    };
+
+    if (isNotiOpen) {
+      document.addEventListener('mousedown', handleClickOutside);
+    }
+
+    return () => {
+      if (isNotiOpen) {
+        document.removeEventListener('mousedown', handleClickOutside);
+      }
+    };
+  }, [isNotiOpen]);
+
+  // 로그인 후 모달 초기화
+  useEffect(() => {
+    setIsModalOpen(false);
+    setIsNotiOpen(false);
+  }, [user]);
+
+  // 알림 불러오기
+  useEffect(() => {
+    if (isNotiOpen) {
+      fetchNotifications()
+        .then(setNotifications)
+        .catch(() => alert('알림을 불러오지 못했습니다.'));
+    }
+  }, [isNotiOpen]);
+
   const hideHeaderPaths = ['/login', '/signup'];
   const shouldHideHeader = hideHeaderPaths.includes(pathname);
 
@@ -45,6 +86,10 @@ export default function Header() {
 
   const handleProfileClick = () => {
     setIsModalOpen((prev) => !prev);
+  };
+
+  const handleBellClick = () => {
+    setIsNotiOpen((prev) => !prev);
   };
 
   const renderProfile = () => {
@@ -98,9 +143,27 @@ export default function Header() {
             <Link href="/jobs">채용 공고</Link>
           </div>
 
-          <div className="hidden items-center md:flex">
-            <Image width={20} height={20} src={Bell} alt="알림" />
-          </div>
+          {isAuthenticated && (
+            <div className="relative hidden items-center md:flex">
+              <Image
+                width={20}
+                height={20}
+                src={Bell}
+                alt="알림"
+                className="cursor-pointer"
+                onClick={handleBellClick}
+              />
+              {isNotiOpen && (
+                <div ref={notiRef} className="absolute top-[35px] right-0 z-50">
+                  <NotificationModal
+                    notifications={notifications}
+                    closeModal={() => setIsNotiOpen(false)}
+                    onRefresh={() => fetchNotifications().then(setNotifications)}
+                  />
+                </div>
+              )}
+            </div>
+          )}
 
           {isAuthenticated ? (
             <div className="text-md md:text-2lg relative flex items-center gap-[10px] font-bold">
@@ -125,8 +188,6 @@ export default function Header() {
             </div>
           )}
         </div>
-
-        {/* TODO: 알림*/}
       </nav>
     </header>
   );
