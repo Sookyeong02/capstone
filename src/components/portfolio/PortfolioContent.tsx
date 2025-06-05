@@ -5,6 +5,7 @@ import dynamic from 'next/dynamic';
 import Image from 'next/image';
 import LikeButton from '../portfolio/LikeButton';
 import Kebab from './Kebab';
+import Link from 'next/link';
 
 const RenderBlock = dynamic(() => import('../portfolio/RenderBlock'), { ssr: false });
 
@@ -25,24 +26,23 @@ export default function PortfolioContent({
   const isOwner = portfolio.userId === currentUserId;
   const formattedDate = portfolio.createdAt?.split('T')[0].replace(/-/g, '.');
 
-  const renderPortfolioProfile = (nickname: string, profileImageUrl?: string) => {
-    if (profileImageUrl) {
-      return (
-        <Image
-          src={`${profileImageUrl}?t=${new Date().getTime()}`}
-          alt="프로필 이미지"
-          width={45}
-          height={45}
-          className="h-[45px] w-[45px] rounded-full object-cover"
-        />
-      );
-    }
-
-    const initial = nickname?.[0] || '?';
+  const renderPortfolioProfile = (userId: string, nickname: string, profileImageUrl?: string) => {
     return (
-      <div className="flex h-[45px] w-[45px] items-center justify-center rounded-full bg-gray-200 text-sm text-white">
-        {initial}
-      </div>
+      <Link href={`/profile/${userId}`}>
+        {profileImageUrl ? (
+          <Image
+            src={`${profileImageUrl}?t=${new Date().getTime()}`}
+            alt="프로필 이미지"
+            width={45}
+            height={45}
+            className="h-[45px] w-[45px] rounded-full object-cover"
+          />
+        ) : (
+          <div className="flex h-[45px] w-[45px] items-center justify-center rounded-full bg-gray-200 text-sm text-white">
+            {nickname?.[0] || '?'}
+          </div>
+        )}
+      </Link>
     );
   };
 
@@ -67,7 +67,7 @@ export default function PortfolioContent({
         </div>
 
         <div className="mt-[14px] flex items-center gap-2">
-          {renderPortfolioProfile(portfolio.nickname, portfolio.profileImageUrl)}
+          {renderPortfolioProfile(portfolio.userId, portfolio.nickname, portfolio.profileImageUrl)}
           <div className="flex flex-col">
             {portfolio.nickname && <span className="text-xl">{portfolio.nickname}</span>}
             <span className="text-md text-gray-300">{formattedDate}</span>
@@ -82,7 +82,7 @@ export default function PortfolioContent({
       </div>
 
       <div className="flex flex-col items-center gap-2 pt-6">
-        {renderPortfolioProfile(portfolio.nickname, portfolio.profileImageUrl)}
+        {renderPortfolioProfile(portfolio.userId, portfolio.nickname, portfolio.profileImageUrl)}
         {portfolio.nickname && <span className="text-xl">{portfolio.nickname}</span>}
         <div className="mt-[15px] flex gap-4">
           <LikeButton portfolioId={portfolio.id} count={portfolio.likeCount || 0} />
