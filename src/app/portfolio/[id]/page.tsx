@@ -2,7 +2,7 @@
 
 import { notFound, useParams } from 'next/navigation';
 import { useEffect, useState } from 'react';
-import { getPortfolioDetail } from '@/api/portfolio'; // ✅ 수정된 부분
+import { getPortfolioDetail } from '@/api/portfolio';
 import PortfolioContent from '@/components/portfolio/PortfolioContent';
 import { useAuthStore } from '@/store/auth';
 import { Portfolio } from '@/types/portfolio';

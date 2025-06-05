@@ -21,3 +21,16 @@ export interface UpdateCompanyProfileRequest {
   companyWebsite?: string;
   profileImageUrl?: string;
 }
+
+// 공개 사용자 정보
+export interface PublicUser {
+  id: string;
+  nickname: string;
+  profileImageUrl?: string;
+  introduction?: string;
+  jobField?: string;
+  personalWebsite?: string;
+  portfoliosCount: number;
+  likesReceived: number;
+  likesGiven: number;
+}

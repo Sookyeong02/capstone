@@ -1,3 +1,9 @@
-export default function PortfolioPosts() {
-  return <div>내 포트폴리오</div>;
+import MyPortfolioList from '@/components/mypage/MyPortfolioList';
+
+export default function MyPortfolioSection() {
+  return (
+    <div>
+      <MyPortfolioList />
+    </div>
+  );
 }
