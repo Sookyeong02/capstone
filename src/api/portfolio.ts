@@ -1,4 +1,5 @@
 import { CreatePortfolioParams, Portfolio, PortfolioResponse } from '@/types/portfolio';
+import { PublicUser } from '@/types/user';
 import { api, publicApi } from '@/utils/axios';
 
 // 전체 포트폴리오 조회
@@ -61,4 +62,22 @@ export const uploadPortfolioImage = async (file: File): Promise<string> => {
   });
 
   return res.data.url;
+};
+
+// 내 포트폴리오 조회
+export const fetchMyPortfolio = async (): Promise<Portfolio[]> => {
+  const res = await api.get<Portfolio[]>('/user/portfolios');
+  return res.data;
+};
+
+// 공개용 내 포트폴리오 조회
+export const getUserPortfolios = async (userId: string): Promise<Portfolio[]> => {
+  const res = await publicApi.get<Portfolio[]>(`/portfolios/user/${userId}`);
+  return res.data;
+};
+
+// 공개 사용자 정보
+export const getUserInfoById = async (userId: string): Promise<PublicUser> => {
+  const res = await publicApi.get<PublicUser>(`/user/${userId}`);
+  return res.data;
 };

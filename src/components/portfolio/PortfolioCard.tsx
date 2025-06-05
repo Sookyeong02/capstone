@@ -66,7 +66,9 @@ export default function PortfolioCard({ portfolio }: PortfolioCardProps) {
           )}
         </div>
         <div className="flex items-center gap-2 text-sm text-[#0A1B2D]">
-          <span className="text-lg font-semibold">{nickname}</span>
+          <Link href={`/profile/${portfolioUserId}`}>
+            <span className="text-lg font-semibold">{nickname}</span>
+          </Link>
           <div className="flex items-center gap-[2px]">
             <Image src={EmptyHeart} alt="좋아요" width={20} height={20} />
             <span>{likes}</span>
