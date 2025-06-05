@@ -2,8 +2,10 @@
 
 import Image from 'next/image';
 import { Button } from '../ui/Button';
+import { sendHireByUserId } from '@/api/hire';
 
 type Props = {
+  userId: string;
   user: {
     nickname: string;
     profileImageUrl?: string;
@@ -16,8 +18,17 @@ type Props = {
   };
 };
 
-export default function UserSidebar({ user }: Props) {
+export default function UserSidebar({ userId, user }: Props) {
   const initial = user.nickname[0];
+
+  const handleHireClick = async () => {
+    try {
+      await sendHireByUserId(userId);
+      alert('채용제안 이메일이 전송되었습니다.');
+    } catch (err: any) {
+      alert(err?.response?.data?.message || '이메일 발송 실패');
+    }
+  };
 
   return (
     <aside className="h-full w-[320px] rounded-[5px] border border-gray-400">
@@ -80,7 +91,7 @@ export default function UserSidebar({ user }: Props) {
           </div>
 
           <div className="mt-[20px] mb-[20px] flex justify-center">
-            <Button size="full" variant="customBlue">
+            <Button onClick={handleHireClick} size="full" variant="customBlue">
               채용하기
             </Button>
           </div>

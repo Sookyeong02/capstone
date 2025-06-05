@@ -6,6 +6,7 @@ import Image from 'next/image';
 import LikeButton from '../portfolio/LikeButton';
 import Kebab from './Kebab';
 import Link from 'next/link';
+import { sendHireByPortfolioId } from '@/api/hire';
 
 const RenderBlock = dynamic(() => import('../portfolio/RenderBlock'), { ssr: false });
 
@@ -44,6 +45,15 @@ export default function PortfolioContent({
         )}
       </Link>
     );
+  };
+
+  const handleHireClick = async () => {
+    try {
+      await sendHireByPortfolioId(portfolio.id);
+      alert('채용제안 이메일이 전송되었습니다.');
+    } catch (err: any) {
+      alert(err?.response?.data?.message || '이메일 발송 실패');
+    }
   };
 
   return (
@@ -86,7 +96,10 @@ export default function PortfolioContent({
         {portfolio.nickname && <span className="text-xl">{portfolio.nickname}</span>}
         <div className="mt-[15px] flex gap-4">
           <LikeButton portfolioId={portfolio.id} count={portfolio.likeCount || 0} />
-          <button className="bg-custom-blue-200 text-semibold flex h-[50px] w-[120px] items-center justify-center rounded-full text-sm text-white md:h-[50px] md:w-[162px] md:text-xl">
+          <button
+            onClick={handleHireClick}
+            className="bg-custom-blue-200 text-semibold flex h-[50px] w-[120px] items-center justify-center rounded-full text-sm text-white md:h-[50px] md:w-[162px] md:text-xl"
+          >
             채용하기
           </button>
         </div>

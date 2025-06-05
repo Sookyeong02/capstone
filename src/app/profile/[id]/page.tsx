@@ -39,7 +39,7 @@ export default function UserProfilePage() {
 
   return (
     <div className="mx-auto mt-[70px] flex max-w-[1600px] flex-col gap-[20px] px-[40px] md:gap-[40px] lg:flex-row">
-      <UserSidebar user={user} />
+      <UserSidebar user={user} userId={user.id} />
 
       <div className="flex-1">
         <h2 className="mb-[24px] text-xl font-bold">{user.nickname}님의 포트폴리오</h2>
