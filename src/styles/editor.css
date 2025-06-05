@@ -1,11 +1,30 @@
 .ProseMirror {
   min-height: 300px;
   outline: none !important;
-  font-size: 16px;
   line-height: 1.6;
   padding: 0.5rem;
   box-shadow: none !important;
   border: none !important;
+}
+
+.ProseMirror p.is-editor-empty::before {
+  content: attr(data-placeholder) !important;
+  color: #a4a1aa !important;
+  float: left;
+  height: 0;
+  pointer-events: none;
+  font-size: 20px;
+  font-style: normal;
+  position: relative;
+  opacity: 0.8;
+}
+
+.ProseMirror *[style*='font-size'] {
+  font-size: unset !important;
+}
+
+.ProseMirror *[style*='font-family'] {
+  font-family: unset !important;
 }
 
 .ProseMirror:focus {
@@ -13,7 +32,7 @@
 }
 
 .ProseMirror {
-  text-align: start; 
+  text-align: start;
 }
 
 .ProseMirror p[style*='text-align:center'] {
@@ -46,4 +65,3 @@ code {
   font-size: inherit;
   color: #222;
 }
-

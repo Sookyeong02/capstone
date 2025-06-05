@@ -5,14 +5,27 @@ interface PaginationProps {
 }
 
 const Pagination = ({ currentPage, totalPages, onPageChange }: PaginationProps) => {
-  const pages = Array.from({ length: totalPages }, (_, i) => i + 1);
+  const maxVisiblePages = 9;
+  let startPage = 1;
+
+  if (totalPages > maxVisiblePages) {
+    startPage = Math.max(currentPage - Math.floor(maxVisiblePages / 2), 1);
+    startPage = Math.min(startPage, totalPages - maxVisiblePages + 1);
+  }
+
+  const pages = Array.from(
+    { length: Math.min(maxVisiblePages, totalPages - startPage + 1) },
+    (_, i) => startPage + i,
+  );
 
   return (
-    <div className="mt-8 flex justify-center gap-2">
+    <div className="mt-[70px] flex justify-center gap-2">
       <button
         onClick={() => onPageChange(currentPage - 1)}
-        disabled={currentPage === 1}
-        className="rounded border border-[#0A1B2D] bg-white px-3 py-1 text-[#0A1B2D] disabled:opacity-50"
+        disabled={currentPage <= 1}
+        className={`flex h-[34px] w-[34px] items-center justify-center rounded-md border border-[#0A1B2D] bg-white text-[18px] text-[#0A1B2D] lg:h-[48px] lg:w-[48px] ${
+          currentPage <= 1 ? 'cursor-not-allowed opacity-50' : ''
+        }`}
       >
         &lt;
       </button>
@@ -21,8 +34,8 @@ const Pagination = ({ currentPage, totalPages, onPageChange }: PaginationProps) 
         <button
           key={page}
           onClick={() => onPageChange(page)}
-          className={`rounded border border-[#0A1B2D] px-3 py-1 ${
-            page === currentPage ? 'bg-[#0A1B2D] text-white' : 'bg-white text-[#0A1B2D]'
+          className={`flex h-[34px] w-[34px] items-center justify-center rounded-md border border-[#0A1B2D] text-[16px] lg:h-[48px] lg:w-[48px] lg:text-[18px] ${
+            page === currentPage ? 'bg-[#0A1B2D] font-bold text-white' : 'bg-white text-[#0A1B2D]'
           }`}
         >
           {page}
@@ -31,8 +44,10 @@ const Pagination = ({ currentPage, totalPages, onPageChange }: PaginationProps) 
 
       <button
         onClick={() => onPageChange(currentPage + 1)}
-        disabled={currentPage === totalPages}
-        className="rounded border border-[#0A1B2D] bg-white px-3 py-1 text-[#0A1B2D] disabled:opacity-50"
+        disabled={currentPage >= totalPages}
+        className={`flex h-[34px] w-[34px] items-center justify-center rounded-md border border-[#0A1B2D] bg-white text-[18px] text-[#0A1B2D] lg:h-[48px] lg:w-[48px] ${
+          currentPage >= totalPages ? 'cursor-not-allowed opacity-50' : ''
+        }`}
       >
         &gt;
       </button>

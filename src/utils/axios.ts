@@ -16,7 +16,7 @@ const isClient = typeof window !== 'undefined';
 // 인증이 필요한 요청 전용
 export const axiosInstance = axios.create({
   baseURL,
-  timeout: 10000,
+  timeout: 20000,
   headers: { 'Content-Type': 'application/json' },
   withCredentials: true, // Refresh token 쿠키 전송 위해 필요
 });
@@ -24,7 +24,7 @@ export const axiosInstance = axios.create({
 // 인증 없는 요청
 export const publicAxios = axios.create({
   baseURL,
-  timeout: 10000,
+  timeout: 20000,
   headers: { 'Content-Type': 'application/json' },
   withCredentials: true,
 });
