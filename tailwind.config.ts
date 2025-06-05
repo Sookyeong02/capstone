@@ -32,7 +32,7 @@ export default {
         primaryYellow: '#FFC23D',
       },
       fontFamily: {
-        pretendard: ['var(--font-pretendard)'], // CSS 변수 사용
+        pretendard: ['Pretendard', 'sans-serif'],  
       },
       fontSize: {
         '3xl': ['32px', { lineHeight: '42px' }],

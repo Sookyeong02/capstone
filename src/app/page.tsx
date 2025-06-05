@@ -1,38 +1,65 @@
 'use client';
 
-import { useState } from 'react';
-import Pagination from '@/components/common/pagination';
-import PortfolioCard from '@/components/portfolio/portfoliocard';
+import { useState, useEffect } from 'react';
+import Pagination from '@/components/common/Pagination';
+import PortfolioCard from '@/components/portfolio/PortfolioCard';
+import Image from 'next/image';
+import SearchIcon from '../../public/icons/searchbar.svg';
+import Keyboard from '../../public/images/keyboard.png';
+import Phone from '../../public/images/phone.png';
+import { Portfolio } from '@/types/portfolio';
+import { fetchPortfolios } from '@/api/portfolio';
 
-const data = [
-  { imageUrl: '/images/card01.png', username: 'shy', likes: 27 },
-  { imageUrl: '/images/card02.png', username: 'shy1', likes: 19 },
-  { imageUrl: '/images/card03.png', username: 'shy2', likes: 42 },
-  { imageUrl: '/images/card04.png', username: 'shy3', likes: 33 },
-  { imageUrl: '/images/card05.png', username: 'shy4', likes: 24 },
-  { imageUrl: '/images/card06.png', username: 'shy5', likes: 15 },
+const categories = [
+  { label: 'Design', value: 'design', icon: '/images/design_icon.png' },
+  { label: 'Develop', value: 'develop', icon: '/images/develop_icon.png' },
+  { label: 'Video', value: 'video', icon: '/images/video_icon.png' },
+  { label: 'Music', value: 'music', icon: '/images/music_icon.png' },
 ];
 
 export default function Home() {
   const [search, setSearch] = useState('');
-  const [currentPage, setCurrentPage] = useState(1);
-  const totalPages = 4;
+  const [category, setCategory] = useState<string | null>(null);
+  const [sort, setSort] = useState<'latest' | 'likes'>('latest');
+  const [isSortOpen, setIsSortOpen] = useState(false);
+  const [page, setPage] = useState(1);
+  const [totalPages, setTotalPages] = useState(1);
+  const [portfolios, setPortfolios] = useState<Portfolio[]>([]);
 
-  const filteredData = data.filter((item) =>
-    item.username.toLowerCase().includes(search.toLowerCase()),
-  );
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const res = await fetchPortfolios({
+          category: category || undefined,
+          search,
+          sort,
+          page,
+          limit: 12,
+        });
+
+        const converted = res.data.map((p) => ({
+          ...p,
+          id: p._id ?? '',
+        }));
+
+        setPortfolios(converted);
+        setTotalPages(res.totalPages);
+      } catch (err) {
+        console.error('포트폴리오 불러오기 실패:', err);
+      }
+    };
+
+    fetchData();
+  }, [category, search, sort, page]);
 
   return (
-    <div
-      className="w-full px-0 py-10"
-      style={{ fontFamily: 'PretendardSemiBold', color: '#0A1B2D' }}
-    >
-      {/* 상단 키비주얼 영역 */}
-      <section className="relative w-full bg-[#EEEEEE] px-6 pt-20 pb-0">
-        <div className="flex w-full items-end justify-between">
-          <div className="z-10 max-w-xl pb-0 pl-24">
+    <div className="w-full px-0" style={{ fontFamily: 'PretendardSemiBold', color: '#0A1B2D' }}>
+      {/* 상단 키비주얼 */}
+      <section className="relative w-full bg-[#EEEEEE] pt-12 pb-0">
+        <div className="mx-auto flex max-w-[1440px] flex-col items-center justify-between px-6 lg:flex-row lg:items-end lg:px-24">
+          <div className="z-10 flex flex-col items-center text-center lg:items-start lg:text-left">
             <h1
-              className="mb-3 -translate-y-1 text-left text-4xl whitespace-nowrap"
+              className="mb-3 px-1 text-3xl font-bold lg:text-5xl"
               style={{
                 fontFamily: 'PretendardBold',
                 color: '#0A191E',
@@ -42,98 +69,133 @@ export default function Home() {
               Turn Your Passion Into a Portfolio
             </h1>
             <p
-              className="mb-4 translate-x-1 -translate-y-2 text-left text-base"
+              className="mb-4 px-3 py-1 text-base"
               style={{ fontFamily: 'PretendardRegular', color: '#504F4F' }}
             >
               Build a stunning portfolio to showcase and grow your career
             </p>
-            <img
-              src="/images/keyboard.png"
-              alt="keyboard"
-              className="-translate-y-0.1 w-[520px] max-w-none"
-            />
+            <Image src={Keyboard} alt="keyboard" className="h-auto w-[800px]" />
           </div>
-          <img
-            src="/images/phone.png"
-            alt="phone"
-            className="h-auto w-64 -translate-x-15 -translate-y-6 pr-2"
-          />
+          <div className="hidden pr-2 lg:block">
+            <Image src={Phone} alt="phone" className="h-auto w-[400px]" />
+          </div>
         </div>
       </section>
 
-      {/* 카테고리 그라데이션 영역 */}
+      {/* 카테고리 */}
       <section
         className="w-full"
         style={{ background: 'linear-gradient(to bottom, rgba(121,116,126,0.2), transparent)' }}
       >
-        <div className="grid grid-cols-4 gap-x-1 py-14 text-center">
-          {[
-            { name: 'Design', icon: '/images/designicon.png' },
-            { name: 'Develop', icon: '/images/developicon.png' },
-            { name: 'Video', icon: '/images/videoicon.png' },
-            { name: 'Music', icon: '/images/musicicon.png' },
-          ].map((cat) => (
-            <div key={cat.name} className="flex flex-col items-center gap-1">
-              <img src={cat.icon} alt={cat.name} className="h-15 w-15" />
-              <span className="text-sm">{cat.name}</span>
-            </div>
-          ))}
+        <div className="mx-auto grid max-w-[1300px] grid-cols-4 gap-x-[0px] gap-y-[15px] py-14 text-center">
+          {categories.map((cat) => {
+            const isSelected = category === cat.value;
+
+            return (
+              <button
+                key={cat.value}
+                onClick={() => setCategory(cat.value)}
+                className={`flex flex-col items-center gap-1 transition ${
+                  isSelected ? 'text-custom-blue-200 font-semibold' : 'text-gray-600'
+                }`}
+              >
+                <div className="relative h-[50px] w-[50px] lg:h-[100px] lg:w-[100px]">
+                  <Image src={cat.icon} alt={cat.label} fill className="object-contain" />
+                </div>
+
+                <span>{cat.label}</span>
+              </button>
+            );
+          })}
         </div>
       </section>
 
       {/* 검색창 */}
-      <section className="mb-8 flex items-center justify-center">
-        <div className="relative w-[85%]">
-          <img
-            src="/images/searchicon.png"
-            alt="search"
-            className="absolute top-1/2 left-3 h-8 w-8 -translate-y-1/2 transform"
-          />
-          <input
-            type="text"
-            placeholder="원하는 작품을 입력해보세요"
-            value={search}
-            onChange={(e) => setSearch(e.target.value)}
-            className="w-full rounded-full border py-2 pr-4 pl-10 text-[#0A1B2D] placeholder:text-gray-400"
-            style={{
-              fontFamily: 'PretendardSemiBold',
-              backgroundColor: '#F5F5F5',
-              borderColor: '#0A1B2D',
-            }}
-          />
+      <section className="mb-[70px] flex items-center justify-center">
+        <div className="flex w-full max-w-[1600px] items-center justify-center px-4">
+          <div className="relative w-[80%]">
+            <div
+              className="flex h-[52px] w-full items-center gap-[10px] rounded-full border border-[#0A1B2D] px-4"
+              style={{ backgroundColor: '#F5F5F5' }}
+            >
+              <Image
+                src={SearchIcon}
+                alt="search"
+                width={32}
+                height={32}
+                className="h-[32px] w-[32px]"
+              />
+              <input
+                type="text"
+                placeholder="원하는 작품을 입력해보세요"
+                value={search}
+                onChange={(e) => setSearch(e.target.value)}
+                className="w-full border-none bg-transparent text-[#0A1B2D] placeholder:text-gray-300 focus:outline-none"
+                style={{ fontFamily: 'PretendardSemiBold' }}
+              />
+            </div>
+          </div>
+
+          <div className="relative ml-4 inline-block">
+            <span className="absolute -top-2 left-1/2 -translate-x-1/2 bg-[#FAFAFA] px-1 text-xs font-bold text-[#0A1B2D]">
+              정렬
+            </span>
+
+            {/* 정렬 버튼 */}
+            <button
+              onClick={() => setIsSortOpen(!isSortOpen)}
+              className="flex items-center gap-1 rounded-full border-1 border-[#0A1B2D] bg-[#F5F5F5] px-4 py-2 font-bold text-[#0A1B2D]"
+            >
+              {sort === 'latest' ? '최신순' : '좋아요순'}
+              <svg className="h-3 w-3 fill-[#0A1B2D]" viewBox="0 0 20 20">
+                <path d="M5 7l5 6 5-6H5z" />
+              </svg>
+            </button>
+
+            {/* 정렬 옵션 드롭다운 */}
+            {isSortOpen && (
+              <div className="ring-opacity-5 absolute right-0 z-50 mt-1 w-32 rounded-md bg-white shadow-lg ring-1 ring-black">
+                <ul className="py-1 text-sm text-[#0A1B2D]">
+                  <li
+                    className="cursor-pointer px-4 py-2 hover:bg-gray-100"
+                    onClick={() => {
+                      setSort('latest');
+                      setIsSortOpen(false);
+                    }}
+                  >
+                    최신순
+                  </li>
+                  <li
+                    className="cursor-pointer px-4 py-2 hover:bg-gray-100"
+                    onClick={() => {
+                      setSort('likes');
+                      setIsSortOpen(false);
+                    }}
+                  >
+                    좋아요순
+                  </li>
+                </ul>
+              </div>
+            )}
+          </div>
         </div>
-
-        <button className="ml-2 flex items-center gap-1 rounded-full border border-[#0A1B2D] px-4 py-2 text-sm">
-          <span style={{ fontFamily: 'PretendardSemiBold', color: '#0A1B2D' }}>최신순</span>
-          <span
-            style={{
-              fontFamily: 'PretendardSemiBold',
-              fontSize: '14px',
-              color: '#0A1B2D',
-              lineHeight: '1',
-              position: 'relative',
-              top: '1px',
-            }}
-          >
-            ⌄
-          </span>
-        </button>
       </section>
 
-      {/* 포트폴리오 카드 리스트 */}
-      <section className="mb-10 grid grid-cols-1 gap-6 px-8 sm:grid-cols-2 md:grid-cols-3">
-        {filteredData.map((item, idx) => (
-          <PortfolioCard
-            key={idx}
-            imageUrl={item.imageUrl}
-            username={item.username}
-            likes={item.likes}
-          />
-        ))}
-      </section>
+      {/* 카드 리스트 */}
+      {portfolios.length === 0 ? (
+        <p className="text-center text-gray-500">등록된 포트폴리오가 없습니다.</p>
+      ) : (
+        <div className="mx-auto grid w-full max-w-[1600px] grid-cols-2 gap-x-[8px] gap-y-[4px] sm:gap-x-[16px] md:grid-cols-3 md:gap-x-[80px] md:gap-y-[40px] lg:grid-cols-4">
+          {portfolios.map((portfolio) => (
+            <PortfolioCard key={portfolio.id} portfolio={portfolio} />
+          ))}
+        </div>
+      )}
 
-      {/* 페이지네이션 */}
-      <Pagination currentPage={currentPage} totalPages={totalPages} onPageChange={setCurrentPage} />
+      {totalPages > 1 && (
+        <Pagination currentPage={page} totalPages={totalPages} onPageChange={setPage} />
+      )}
+      <div className="mb-10" />
     </div>
   );
 }
